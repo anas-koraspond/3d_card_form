@@ -1,9 +1,11 @@
 import {
   Button,
+  Col,
   Cascader,
   DatePicker,
   Form,
   Input,
+  Row,
   InputNumber,
   Radio,
   Select,
@@ -18,6 +20,8 @@ import Context from '../context';
 import { default as NumberFormat } from 'react-number-format';
 
 // import moment from 'moment';
+
+
 
 const CardFormEl = ({children}) => {
   return <div className="CardForm">{children}</div>
@@ -34,12 +38,13 @@ export default function Cardform({details,handleFormChange }) {
     return (
         <CardFormEl>
           <Form
-          labelCol={{
-            span: 4,
-          }}
-          wrapperCol={{
-            span: 18,
-          }}
+          // labelCol={{
+          //   span: 4,
+          // }}
+          // wrapperCol={{
+          //   span: 18,
+          // }}
+          labelAlign="left"
           layout="horizontal"
           initialValues={{
             size: componentSize,
@@ -47,19 +52,41 @@ export default function Cardform({details,handleFormChange }) {
           onValuesChange={onFormLayoutChange}
           size={componentSize}
         >
-          <Form.Item label={<label style={{ color: "#fff" }}>Name</label>} rules={[{required: true,message: "Please input your username!"}]}>
-            <Input style={{ width: 'calc(50% - 5px)' , margin: '0 5px 0 0' }}  value={details.first_name || ''} onChange={e => handleFormChange(e, 'first_name')}/>
-            <Input style={{ width: 'calc(50% - 5px)' , margin: '0 0 0 5px' }}   value={details.last_name || ''} onChange={e => handleFormChange(e, 'last_name')}/>
+          <Row >
+  <Col span={12} > 
+    <Form.Item label={'Name'} labelCol={{ span:8 }}
+          wrapperCol={{ span: 14 }}><Input   value={details.first_name || ''} onChange={e => handleFormChange(e, 'first_name')}/></Form.Item>
+  </Col>
+  <Col span={12}>
+  <Form.Item label={'Surname'} labelCol={{ span: 8 }}
+          wrapperCol={{ span: 14 }}>
+    <Input  value={details.last_name || ''} onChange={e => handleFormChange(e, 'last_name')}/>
+  </Form.Item>
+  </Col>
+</Row>
+<Row >
+  <Col span={24} >
+  <Form.Item labelCol={{ span: 4 }}
+          wrapperCol={{ span: 19 }}label={'Number'} rules={[{required: true,message: "Please input your username!"}]} format="#### #### #### ####">
+            <Input value={details.card_number || ''} onChange={e => handleFormChange(e, 'card_number')}/>
           </Form.Item>
-          <Form.Item label={<label style={{ color: "#fff" }}>Number</label>} rules={[{required: true,message: "Please input your username!"}]}>
-            <Input style={{ width: '100%' }} value={details.card_number || ''} onChange={e => handleFormChange(e, 'card_number')}/>
+
+  </Col>
+</Row>
+<Row>
+  <Col span={16}>
+  <Form.Item labelCol={{ span: 6 }}
+          wrapperCol={{ span: 14}} label={'Valid date'} rules={[{required: true,message: "Please input your username!"}]}>
+            <DatePicker   style={{width: '100%'}} value={moment(details.card_exp)  || ''} onChange={e => handleFormChange(e, 'card_exp')} format="DD/MM/YYYY"/>
           </Form.Item>
-          <Form.Item label={<label style={{ color: "#fff" }}>Valid date</label>} rules={[{required: true,message: "Please input your username!"}]}>
-            <DatePicker style={{ width: '100%' }}  value={moment(details.card_exp)  || ''} onChange={e => handleFormChange(e, 'card_exp')}/>
+  </Col>
+  <Col span={8}>
+  <Form.Item labelCol={{ span: 11 }}
+          wrapperCol={{ span: 10 }} label={'Sectret'} rules={[{required: true,message: "Please input your username!"}]}>
+            <InputNumber style={{width: '100%'}} value={details.card_secure || ''} onChange={e => handleFormChange(e, 'card_secure')} format="###"/>
           </Form.Item>
-          <Form.Item label={<label style={{ color: "#fff" }}>Sectret</label>} rules={[{required: true,message: "Please input your username!"}]}>
-            <InputNumber style={{ width: '100%' }}  value={details.card_secure || ''} onChange={e => handleFormChange(e, 'card_secure')}/>
-          </Form.Item>
+  </Col>
+</Row>
         </Form>
         </CardFormEl>
   );

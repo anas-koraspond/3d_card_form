@@ -5,18 +5,38 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: url(https://media.istockphoto.com/vectors/violet-purple-and-navy-blue-defocused-blurred-motion-gradient-vector-id1308683679?k=20&m=1308683679&s=612x612&w=0&h=s0dfpeMtz1Qyn0v5nz-Ge5LfcSNlUo7Wl36CdOGkx5M=);
+  /* background: url(https://media.istockphoto.com/vectors/violet-purple-and-navy-blue-defocused-blurred-motion-gradient-vector-id1308683679?k=20&m=1308683679&s=612x612&w=0&h=s0dfpeMtz1Qyn0v5nz-Ge5LfcSNlUo7Wl36CdOGkx5M=);
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: cover; */
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
     justify-content: center;
     align-items: center;
+    /* background: rgb(50,19,139);
+    background: linear-gradient(45deg, rgba(50,19,139,1) 0%, rgba(252,70,107,1) 100%); */
+    background: linear-gradient(-45deg, rgba(50,19,139,1), rgba(252,70,107,1), rgba(50,19,139,1), rgb(85, 19, 118));
+    background-size: 400% 400%;
+    animation: gradient 35s ease infinite;
+    height: 100vh;
 
-}
 
+  }
+  
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 80%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

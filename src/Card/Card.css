@@ -1,3 +1,4 @@
 .Card {
     min-width: 500px;
+    cursor: move;
 }

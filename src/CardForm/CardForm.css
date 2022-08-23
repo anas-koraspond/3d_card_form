@@ -1,4 +1,13 @@
 .CardForm {
     width: 100%;
     color: #fff;
+    max-width: 570px;
+    position: absolute;
+    background: rgba(255,255,255,0.3);
+    padding: 20px 30px;
+    border-radius: 10px;
+    top: 525px;
+    left: 0;
+    right: 0;
+    margin: auto;
 }

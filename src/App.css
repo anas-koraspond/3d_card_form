@@ -1,24 +1,18 @@
 .App {
   text-align: center;
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 1fr;
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
-  justify-content: center;
-    align-items: center;
-    background: #fff;
-    border-radius: 20px;
+    /* display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    justify-content: center;
+    align-items: center; */
+    background: rgba(255,255,255, 0.1);
+    border-radius: 10px;
     width: 90%;
+    height: 90%;
     margin: auto;
-    /* opacity: 0.5; */
-    background: rgba(255,255,255,0.1);
-    -webkit-box-shadow: 0px 0px 30px -14px rgb(144 8 131);
-    -moz-box-shadow: 0px 0px 30px -14px rgba(144, 8, 131, 1);
-    box-shadow: 0px 0px 30px -14px rgb(144 8 131);
+    place-items: center;
 
 }
 

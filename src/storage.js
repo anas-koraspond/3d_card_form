@@ -3,6 +3,5 @@ export const storage = {
     last_name: 'Kawski',
     card_number: '0000 0000 0000 0000',
     card_exp: '01/12/2002',
-    card_secure: '123',
-    theme: 1,
+    card_secure: '123'
 }
