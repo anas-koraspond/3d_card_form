@@ -24,7 +24,8 @@ const scene = new THREE.Scene();
 let camera = {};
 let renderer = null;
 let font = null;
-window.scene = scene;
+    let change = true;
+    window.scene = scene;
 
 export default function Card({card}) {
     const mount = useRef()
@@ -38,7 +39,26 @@ export default function Card({card}) {
 
     const animateCard = () => {
         const card = scene.getObjectByName('Card-group');
-        if (card) card.rotation.y -= 0.03
+        const stop = 0.3//3.6;
+        const start = 0;
+        const angle = Math.PI/7 / 100;
+        console.log(card.rotation.y)
+        if (change && card.rotation.y < stop) {
+            console.log('add')
+            card.rotation.y +=  angle;
+
+        }else  {
+            card.rotation.y -= angle;
+            console.log('remove')
+
+            change = false;
+
+            if (card.rotation.y <= start) {
+            console.log('change true')
+
+                change = true;
+            }
+        }
     }
 
     const renderScene = () => {
