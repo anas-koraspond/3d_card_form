@@ -24,8 +24,8 @@ const scene = new THREE.Scene();
 let camera = {};
 let renderer = null;
 let font = null;
-    let change = true;
-    window.scene = scene;
+let blockDirection = true;
+window.scene = scene;
 
 export default function Card({card}) {
     const mount = useRef()
@@ -42,21 +42,16 @@ export default function Card({card}) {
         const stop = 0.3//3.6;
         const start = 0;
         const angle = Math.PI/7 / 100;
-        console.log(card.rotation.y)
-        if (change && card.rotation.y < stop) {
-            console.log('add')
+        if (blockDirection && card.rotation.y < stop) {
             card.rotation.y +=  angle;
 
         }else  {
             card.rotation.y -= angle;
-            console.log('remove')
 
-            change = false;
+            blockDirection = false;
 
             if (card.rotation.y <= start) {
-            console.log('change true')
-
-                change = true;
+                blockDirection = true;
             }
         }
     }
@@ -83,6 +78,19 @@ export default function Card({card}) {
     //     cancelAnimationFrame(frameId)
     //     frameId = null
     // }
+
+    const updateTextObjects = (group, card,) => {
+        const z = 0.1;
+        group.add(makeText('Revoult', {x: 1.7, y: 3.5, z}, 1, 1, 'bank-name'));
+    
+        group.add(makeText(card.card_number, {x:-1, y: 3.5, z}, 1, 1,'card-number'));
+        group.add(makeText(`${card.first_name} ${card.last_name}`, {x: -2.25, y: 3.5, z}, 1, 0.8,'card-name'));
+        
+        group.add(makeText('VALID THRU', {x: -1.5, y: -0.8, z}, 1,0.3, 'valid-text'));
+        group.add(makeText(card.card_exp , {x: -1.75, y:-0.8, z}, 1,  0.3,'card-exp'));
+
+        group.add(makeText(card.card_secure , {x: 0.1, y: 2.6, z: -0.01}, 0, 0.5,'card-secure'));
+    }
 
 
     const loadObjectPromise = () => {
@@ -264,15 +272,9 @@ export default function Card({card}) {
             const groupText = new THREE.Group();
             groupText.name = 'Group-text'
             const z = 0.1;
-            groupText.add(makeText('Revoult', {x: 1.7, y: 3.5, z}, 1, 1, 'bank-name'));
-    
-            groupText.add(makeText(card.card_number, {x:-1, y: 3.5, z}, 1, 1,'card-number'));
-            groupText.add(makeText(`${card.first_name} ${card.last_name}`, {x: -2.25, y: 3.5, z}, 1, 0.8,'card-name'));
-            
-            groupText.add(makeText('VALID THRU', {x: -1.5, y: -0.8, z}, 1,0.3, 'valid-text'));
-            groupText.add(makeText(card.card_exp , {x: -1.75, y:-0.8, z}, 1,  0.3,'card-exp'));
-    
-            groupText.add(makeText(card.card_secure , {x: 0.1, y: 2.6, z: -0.01}, 0, 1,'card-secure'));
+
+            updateTextObjects(groupText, card, z);
+      
             group.add(groupText);
     
             scene.add(group) 
@@ -319,20 +321,12 @@ export default function Card({card}) {
         if (group) {
             group.children = [];
             const z = 0.1;
-            
-            group.add(makeText('Revoult', {x: 1.7, y: 3.5, z}, 1, 1, 'bank-name'));
-    
-            group.add(makeText(card.card_number, {x:-1, y: 3.5, z}, 1, 1,'card-number'));
-            group.add(makeText(`${card.first_name} ${card.last_name}`, {x: -2.25, y: 3.5, z}, 1, 0.8,'card-name'));
-            
-            group.add(makeText('VALID THRU', {x: -1.5, y: -0.8, z}, 1,0.3, 'valid-text'));
-            group.add(makeText(card.card_exp , {x: -1.75, y:-0.8, z}, 1,  0.3,'card-exp'));
 
-            group.add(makeText(card.card_secure , {x: 0.1, y: 2.6, z: -0.01}, 0, 1,'card-secure'));
+            updateTextObjects(group, card);
         }
 
         }
     }, [card])
 
     return ( <canvas className="Card" ref={mount}/>)
-}
+} 
