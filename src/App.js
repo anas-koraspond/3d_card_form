@@ -1,39 +1,32 @@
-import logo from './logo.svg';
 import './App.css';
 import CardForm from './CardForm/CardForm';
 import Card from './Card/Card';
 import { storage } from './storage';
 import { useState } from 'react';
-import Context from './context';
-
-// const def = {
-//   first_name: 'test',
-//   last_name: 'test',
-//   card_number: '0000 0000 0000 0000',
-//   card_exp: '00/00/0000',
-//   card_secure: '000',
-//   theme: 1,
-// }
+import moment from 'moment';
 
 function App() {
   const [details, setDetails] = useState({...storage})
 
-  console.log('Details', details)
-
   const handleFormChange =(e, attr) => {
-    console.log(e.target.value, attr)
+    let data = {}
+
+    if (attr === 'card_exp') {
+      data = moment(e).format('DD/MM/YYYY');
+    }else {
+      console.log(e.target)
+      data = e.target.value;
+    }
     const copy = {...details}
-    copy[attr] = e.target.value
+    copy[attr] = data;
     setDetails(copy)
   }
   return (
     <div className="App">
-      {details ?
        <>
         <Card card={{...details}}/>
         <CardForm details={{...details}} handleFormChange={(e, attr) => {handleFormChange(e, attr)}}/>
-      </> : 
-      <></>}
+      </>
     </div>
   );
 }

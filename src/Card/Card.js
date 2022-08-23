@@ -7,31 +7,18 @@ import {
 } from 'three/examples/jsm/loaders/OBJLoader.js';
 import {
     useRef,
-    useEffect,
-    useState
+    useEffect
 } from 'react'
 import {
     MeshBasicMaterial
 } from 'three';
-import PSD from 'psd.js/dist/psd.min'
 import './Card.css'
-import typefaceFont from 'three/examples/fonts/helvetiker_regular.typeface.json'
+// import typefaceFont from 'three/examples/fonts/helvetiker_regular.typeface.json'
 import {
     FontLoader
 } from "three/examples/jsm/loaders/FontLoader";
-import {
-    TextGeometry
-} from 'three/examples/jsm/geometries/TextGeometry';
-import {
-    Group
-} from 'antd/lib/avatar';
-import {
-    storage
-} from '../storage';
-import { useContext } from 'react';
-import Context from '../context';
-let setted = false;
-let count = 0;
+
+
 
 const scene = new THREE.Scene();
 let camera = {};
@@ -62,7 +49,6 @@ export default function Card({card}) {
 
         renderScene()
         frameId = window.requestAnimationFrame(animate);
-        // animatePlanets()
         animateCard();
     }
 
@@ -73,10 +59,10 @@ export default function Card({card}) {
         }
     }
 
-    const stop = () => {
-        cancelAnimationFrame(frameId)
-        frameId = null
-    }
+    // const stop = () => {
+    //     cancelAnimationFrame(frameId)
+    //     frameId = null
+    // }
 
 
     const loadObjectPromise = () => {
@@ -108,7 +94,7 @@ export default function Card({card}) {
                         // load a resource 
             textureLoader.load(
             // resource URL
-            'test/metallic.png',
+            'test/TextureTest.jpg',
 
             // onLoad callback
             function (texture) {
@@ -148,80 +134,8 @@ export default function Card({card}) {
         });
     }
 
-    // const generateText = (text, name, pos, size, font) => {
-    //     // const group = new THREE.Group();
-        
-    //     // let geometry = new TextGeometry(text, {
-    //     //     font: font,
-    //     //     size: 100,
-    //     //     height: 1,
-    //     //     curveSegments: 12,
-    //     //     bevelEnabled: true,
-    //     //     bevelThickness: 0.5,
-    //     //     bevelSize: 8,
-    //     //     bevelOffset: 1,
-    //     //     bevelSegments: 12
-    //     // });
-    //     // const material = new THREE.MeshBasicMaterial({
-    //     //     color: 0xffffff
-    //     // });
-    //     // let textMesh = new THREE.Mesh(geometry, material);
-    //     // textMesh.name = name;
-
-    //     // textMesh.material = material;
-    //     // textMesh.scale.set(0.0045, 0.0045, 0.0045)
-    //     // textMesh.rotateZ(-Math.PI / 3);
-    //     // textMesh.position.set(-2.5, 2.5, 0);
-
-    //     // // group.add(textMesh);
-    //     // return textMesh
-    //     // return group;
-
-    //     const color = 0x006699;
-
-    //     const matDark = new THREE.LineBasicMaterial( {
-    //         color: color,
-    //         side: THREE.DoubleSide
-    //     } );
-
-    //     const matLite = new THREE.MeshBasicMaterial( {
-    //         color: color,
-    //         transparent: true,
-    //         opacity: 0.4,
-    //         side: THREE.DoubleSide
-    //     } );
-
-    //     const message = '   Three.js\nSimple text.';
-
-    //     const shapes = font.generateShapes( message, 1 );
-
-    //     const geometry = new THREE.ShapeGeometry( shapes );
-
-    //     geometry.computeBoundingBox();
-
-    //     const xMid = - 0.5 * ( geometry.boundingBox.max.x - geometry.boundingBox.min.x );
-
-    //     geometry.translate( xMid, 0, 0 );
-
-    //     // make shape ( N.B. edge view not visible )
-
-    //     const text = new THREE.Mesh( geometry, matLite );
-    //     text.name = "Card-number"
-    //     text.position.z = - 150;
-    //                 text.rotateZ(-Math.PI / 3);
-    //     text.position.set(-2.5, 2.5, 0);
-
-    //     return text
-    // }
-
     const makeText = (message, pos, side, fontSize, name) => {
         const color = 0xffffff;
-
-        // const matDark = new THREE.LineBasicMaterial( {
-        //     color: color,
-        //     // side: THREE.DoubleSide
-        // } );
-
         const matLite = new THREE.MeshBasicMaterial( {
             color: color,
             // transparent: true,
@@ -235,176 +149,114 @@ export default function Card({card}) {
 
         geometry.computeBoundingBox();
 
-        const xMid = - 0.5 * ( geometry.boundingBox.max.x - geometry.boundingBox.min.x );
-
         geometry.translate( 0, 0, 0 );
-
-        // make shape ( N.B. edge view not visible )
 
         const text = new THREE.Mesh( geometry, matLite );
         text.name = name || 'test';
         text.position.z = - 150;
+        !side && text.rotateX(-Math.PI)
         text.rotateZ(-Math.PI / 2);
         text.position.set(pos.x, pos.y, pos.z);
         return text;
 
     }
+
+    function creditCardType(cc) {
+
+        if (cc.length < 12) {
+            return undefined;
+        }
+        let amex = new RegExp('^3[47][0-9]{13}$');
+        let visa = new RegExp('^4[0-9]{12}(?:[0-9]{3})?$');
+        let cup1 = new RegExp('^62[0-9]{14}[0-9]*$');
+        let cup2 = new RegExp('^81[0-9]{14}[0-9]*$');
+      
+        let mastercard = new RegExp('^5[1-5][0-9]{14}$');
+        let mastercard2 = new RegExp('^2[2-7][0-9]{14}$');
+      
+        let disco1 = new RegExp('^6011[0-9]{12}[0-9]*$');
+        let disco2 = new RegExp('^62[24568][0-9]{13}[0-9]*$');
+        let disco3 = new RegExp('^6[45][0-9]{14}[0-9]*$');
+        
+        let diners = new RegExp('^3[0689][0-9]{12}[0-9]*$');
+        let jcb =  new RegExp('^35[0-9]{14}[0-9]*$');
+      
+      
+        if (visa.test(cc)) {
+          return 'VISA';
+        }
+        if (amex.test(cc)) {
+          return 'AMEX';
+        }
+        if (mastercard.test(cc) || mastercard2.test(cc)) {
+          return 'MASTERCARD';
+        }
+        if (disco1.test(cc) || disco2.test(cc) || disco3.test(cc)) {
+          return 'DISCOVER';
+        }
+        if (diners.test(cc)) {
+          return 'DINERS';
+        }
+        if (jcb.test(cc)) {
+          return 'JCB';
+        }
+        if (cup1.test(cc) || cup2.test(cc)) {
+          return 'CHINA_UNION_PAY';
+        }
+        return undefined;
+      }
+
+
     useEffect(() => {
 
-
-        //TODO MERGE 2 usse effects
-
-
-        // console.log(scene)
-        //todo wyrzucic i zrobic po ludzku
-        // const oldCard = scene.getObjectByName('Card-group');
-        // if(oldCard) oldCard.children = [];
+        console.log('init')
 
         let width = 500 //mount.current.clientWidth / 2
         let height = 500
-
+    
         Promise.all([loadObjectPromise(), loadTextureProcise(), loadFontPromise()]).then(data => {
             // console.log(data)
             const object = data[0];
             const texture = data[1];
             font = data[2];
-
+    
             let material = new THREE.MeshBasicMaterial({
-                map: texture
+                map: texture,
+                // color: 0xffffff,
+                side: THREE.DoubleSide
             })
-
+    
             //make group 
             const group = new THREE.Group();
             group.rotateZ(Math.PI/3)
             group.name = 'Card-group';
-
+    
             //painting
             object.name = 'Card'
             object.material = material;
             object.children.map(child => {
-                // child.material = material;
-                // if (child.name === 'Mball') {
-                //     child.material = new THREE.MeshBasicMaterial({
-                //         color: 0xe40000
-                //     })
-                // }
+                child.material = material;
                 return child;
             });
-
+    
             group.add(object);
-
-        const groupText = new THREE.Group();
-        groupText.name = 'Group-text'
-
-
-            // const color = 0xffffff;
-
-            // const matDark = new THREE.LineBasicMaterial( {
-            //     color: color,
-            //     side: THREE.DoubleSide
-            // } );
-
-            // const matLite = new THREE.MeshBasicMaterial( {
-            //     color: color,
-            //     transparent: true,
-            //     opacity: 1,
-            //     side: THREE.DoubleSide
-            // } );
-
-            // const message = card.card_number;
-
-            // const shapes = font.generateShapes( message, 0.5 );
-
-            // const geometry = new THREE.ShapeGeometry( shapes );
-
-            // geometry.computeBoundingBox();
-
-            // const xMid = - 0.5 * ( geometry.boundingBox.max.x - geometry.boundingBox.min.x );
-
-            // geometry.translate( 0, 0, 0 );
-
-            // // make shape ( N.B. edge view not visible )
-
-            // const text = new THREE.Mesh( geometry, matLite );
-            // text.name ='test';
-            // text.position.z = - 150;
-            //             text.rotateZ(-Math.PI / 3);
-            // text.position.set(-2.85, 2.5, 0);
-            // groupText.add( text );
-
-            //texts 
-
-            // let cardNameGeometry = new TextGeometry(card ? card.card_number : 'card number', {
-            //     font: font,
-            //     size: 100,
-            //     height: 1,
-            //     curveSegments: 12,
-            //     bevelEnabled: true,
-            //     bevelThickness: 0.5,
-            //     bevelSize: 8,
-            //     bevelOffset: 1,
-            //     bevelSegments: 12
-            // });
-            // material = new THREE.MeshBasicMaterial({
-            //     color: 0xffffff
-            // });
-            // let textMesh = new THREE.Mesh(cardNameGeometry, material);
-            // textMesh.name = 'Card-number';
-
-            // textMesh.material = material;
-            // textMesh.scale.set(0.0045, 0.0045, 0.0045)
-            // textMesh.rotateZ(-Math.PI / 3);
-            // textMesh.position.set(-2.5, 2.5, 0);
-
-            // group.add(textMesh);
-
-
-            // let firstLastNameGeometry = new TextGeometry(card ? (card.first_name + ' ' + card.last_name) : 'first and last name', {
-            //     font: font,
-            //     size: 100,
-            //     height: 1,
-            //     curveSegments: 12,
-            //     bevelEnabled: true,
-            //     bevelThickness: 0.5,
-            //     bevelSize: 8,
-            //     bevelOffset: 1,
-            //     bevelSegments: 12
-            // });
-            // material = new THREE.MeshBasicMaterial({
-            //     color: 0xffffff
-            // });
-            // textMesh = new THREE.Mesh(firstLastNameGeometry, material)
-            // textMesh.name = 'Card-owner';
-
-
-            // textMesh.material = material;
-            // textMesh.scale.set(0.0045, 0.0045, 0.0045)
-            // textMesh.rotateZ(-Math.PI / 3);
-            // textMesh.position.set(-3.5, 2, 0);
-            // -2.25, 3.5, 0
-            groupText.add(makeText('BANK', {x: 1.7, y: 3.5, z:0}, 1, 1, 'test'));
-
-            groupText.add(makeText(card.card_number, {x:-1, y: 3.5, z:0}, 1, 1,'test'));
-            groupText.add(makeText(card.first_name + '' +   card.last_name, {x: -2.25, y: 3.5, z:0}, 1, 0.8,'test'));
+    
+            const groupText = new THREE.Group();
+            groupText.name = 'Group-text'
+            const z = 0.1;
+            groupText.add(makeText('Revoult', {x: 1.7, y: 3.5, z}, 1, 1, 'bank-name'));
+    
+            groupText.add(makeText(card.card_number, {x:-1, y: 3.5, z}, 1, 1,'card-number'));
+            groupText.add(makeText(`${card.first_name} ${card.last_name}`, {x: -2.25, y: 3.5, z}, 1, 0.8,'card-name'));
             
-            groupText.add(makeText('VALID THRU', {x: -1.5, y: -1, z:0}, 1,0.5, 'test'));
-            groupText.add(makeText(card.card_exp , {x: -1.8, y:-1.2, z:0}, 1,  0.4,'test'));
-
-            groupText.add(makeText(card.card_secure , {x: -1, y: 0, z:-0.2}, 0, 0.6,'test'));
-            group.add(groupText)
-                
-            count++;
-
-            //very bad thing //! TO REMOVE 
-        //    if(!setted && count === 2)
-        //     {
-        //     setted = true
+            groupText.add(makeText('VALID THRU', {x: -1.5, y: -0.8, z}, 1,0.3, 'valid-text'));
+            groupText.add(makeText(card.card_exp , {x: -1.75, y:-0.8, z}, 1,  0.3,'card-exp'));
+    
+            groupText.add(makeText(card.card_secure , {x: 0.1, y: 2.6, z: -0.01}, 0, 1,'card-secure'));
+            group.add(groupText);
+    
             scene.add(group) 
-            // } 
-
-            // //todo
-            //add images add texts
-
+    
             camera = new THREE.PerspectiveCamera(1, width / height, 500);
             camera.qulerOrder = 'YXZ';
             window.camera = camera;
@@ -434,57 +286,30 @@ export default function Card({card}) {
             scene.add(dirLight1);
             renderer.setSize(width, height)
             
-            const handleResize = () => {
-                width = mount.current.clientWidth
-                height = mount.current.clientHeight
-                renderer.setSize(width, height)
-                camera.aspect = width / height
-                camera.updateProjectionMatrix()
-                renderScene()
-            }
-    
             start()
-
+    
         })
 
     }, [])
 
     useEffect(() => {
-        console.log('Update details')
-        // stop();
-
-        // const group = scene.getObjectByName('Card-group');
-        const number = scene.getObjectByName('Card-number');
-        // console.log("🚀 ~ file: Card.js ~ line 329 ~ useEffect ~ number", number)
-        const test = scene.getObjectByName('test');
-        const name = scene.getObjectByName('Card-owner');
+        console.log('CARD', card)
+        if (card) {
         const group = scene.getObjectByName('Group-text');
-        const oldCard = scene.getObjectByName('Card-group');
-
-        // oldCard.children = [];
-
-        
-        // console.log(card);
-        // console.log(test);
-        
-        if (test) {
-            // console.log("🚀 ~ file: Card.js ~ line 342 ~ useEffect ~ number", number)
+        if (group) {
             group.children = [];
-            // scene.remove(test);
-            // console.log("🚀 ~ file: Card.js ~ line 344 ~ useEffect ~ number", number)
-            // scene.getObjectByName('Card-group').add(generateText(card.card_number, 'Card-number', null, null, font));
-
-            // group.add(makeText(card.card_number, {x:-1.5, y: 3.5, z:0}, 1, 'test') );
-            // group.add(makeText(card.first_name + ' ' + card.last_name, {x: -2.25, y: 3.5, z:0}, 1, 'test'));
-            group.add(makeText('BANK', {x: 1.7, y: 3.5, z:0}, 1, 1, 'test'));
-
-            group.add(makeText(card.card_number, {x:-1, y: 3.5, z:0}, 1, 1,'test'));
-            group.add(makeText(card.first_name + '' +   card.last_name, {x: -2.25, y: 3.5, z:0}, 1, 0.8,'test'));
+            const z = 0.1;
             
-            group.add(makeText('VALID THRU', {x: -1.5, y: -1, z:0}, 1,0.5, 'test'));
-            group.add(makeText(card.card_exp , {x: -1.8, y:-1.2, z:0}, 1,  0.4,'test'));
+            group.add(makeText('Revoult', {x: 1.7, y: 3.5, z}, 1, 1, 'bank-name'));
+    
+            group.add(makeText(card.card_number, {x:-1, y: 3.5, z}, 1, 1,'card-number'));
+            group.add(makeText(`${card.first_name} ${card.last_name}`, {x: -2.25, y: 3.5, z}, 1, 0.8,'card-name'));
+            
+            group.add(makeText('VALID THRU', {x: -1.5, y: -0.8, z}, 1,0.3, 'valid-text'));
+            group.add(makeText(card.card_exp , {x: -1.75, y:-0.8, z}, 1,  0.3,'card-exp'));
 
-            group.add(makeText(card.card_secure , {x: -1, y: 0, z:-0.2}, 0, 0.6,'test'));
+            group.add(makeText(card.card_secure , {x: 0.1, y: 2.6, z: -0.01}, 0, 1,'card-secure'));
+        }
 
         }
     }, [card])
