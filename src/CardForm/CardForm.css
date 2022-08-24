@@ -3,11 +3,47 @@
     color: #fff;
     max-width: 570px;
     position: absolute;
-    background: rgba(255,255,255,0.3);
-    padding: 20px 30px;
+    background: rgba(255,255,255,1);
+    padding: 15px;
     border-radius: 10px;
-    top: 525px;
+    top: calc(100% - 230px);
     left: 0;
     right: 0;
     margin: auto;
 }
+
+
+.CardForm.CardForm_Animate {
+    transform: translateY(130px);
+    transition: all 0.5s ease-in-out;
+}
+
+.CardForm.CardForm_Animate--Back {
+    transform: translateY(-200px);
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+}
+
+@media screen and (min-height: 1024px) {
+    .CardForm {
+        top: calc(50% + 230px);
+    }
+  }
+/* 
+@media screen and (max-width: 1400px) {
+    .CardForm {
+        bottom: 0;
+        top: unset;
+        left: 0;
+        right: 0;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .CardForm {
+        bottom: unset;
+        top: calc(80%);
+        left: 0;
+        right: 0;
+    }
+} */
