@@ -1,19 +1,37 @@
 .App {
   text-align: center;
-    /* display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(2, 1fr);
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
-    justify-content: center;
-    align-items: center; */
-    background: rgba(255,255,255, 0.1);
-    border-radius: 10px;
-    width: 90%;
-    height: 90%;
+}
+.App_Button {
+  position: absolute !important;
     margin: auto;
-    place-items: center;
+    left: 0;
+    right: 0;
+    display: none !important;
+    top: calc(50% + 295px);
+}
+.App_Button--Show {
+  display: block !important;
+}
+.App_Background {
+  background: rgba(255,255,255, 0.1);
+  border-radius: 10px;
+  width: 90%;
+  max-width: 750px;
+  /* height: 550px; */
 
+  border: 5px solid #fff;
+  margin: auto;
+  place-items: center;
+}
+.App_Background.App_Animate {
+  background: rgba(255,255,255,0.5);
+  transition: all 1s ease-in-out;
+}
+.App_Animate2 {
+  background: rgba(255,255,255,1);
+  transform: scale(2);
+  opacity: 0;
+  transition: all 0.5s ease-in-out;
 }
 
 .App-logo {
@@ -48,5 +66,12 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+
+@media screen and (min-height: 1024px) {
+  .App_Background {
+    height: 550px
   }
 }

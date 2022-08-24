@@ -9,14 +9,12 @@ import {
     useRef,
     useEffect
 } from 'react'
-import {
-    MeshBasicMaterial
-} from 'three';
 import './Card.css'
 // import typefaceFont from 'three/examples/fonts/helvetiker_regular.typeface.json'
 import {
     FontLoader
 } from "three/examples/jsm/loaders/FontLoader";
+import moment from 'moment';
 
 
 
@@ -24,7 +22,45 @@ const scene = new THREE.Scene();
 let camera = {};
 let renderer = null;
 let font = null;
+let blockDirection = true;
+let animationSpeed = Math.PI/7 / 100
+let animationPreviewRotate = Math.PI/7 / 10
+let preview = false;
 window.scene = scene;
+let frameId;
+
+
+const stop = () => {
+    cancelAnimationFrame(frameId)
+    frameId = null
+}
+
+export const setPreviewBoolean = (boolean) => {
+    preview = boolean;
+}
+const previewCardAnimation = () => {
+    console.log('animate preview', preview)
+
+    if (!preview) {
+        return;
+    }
+
+    const card = scene.getObjectByName('Card-group');
+
+    const stop = 35 * 3.6;
+    const angle = animationPreviewRotate;
+    if (card.rotation.y < stop) {
+        if (blockDirection) {
+            card.rotation.y +=  angle;
+
+        }
+
+        if (!blockDirection) {
+            card.rotation.y -=  angle;
+        }
+
+    }
+}
 
 export default function Card({card}) {
     const mount = useRef()
@@ -34,11 +70,27 @@ export default function Card({card}) {
     const textureLoader = new THREE.TextureLoader();
     const fontLoader = new FontLoader();
 
-    let frameId;
-
     const animateCard = () => {
+        console.log('animate card', preview)
+        if (preview) {
+            return;
+        }
         const card = scene.getObjectByName('Card-group');
-        if (card) card.rotation.y -= 0.03
+        const stop = 0.3//3.6;
+        const start = 0;
+        const angle = animationSpeed
+        if (blockDirection && card.rotation.y < stop) {
+            card.rotation.y +=  angle;
+
+        }else  {
+            card.rotation.y -= angle;
+
+            blockDirection = false;
+
+            if (card.rotation.y <= start) {
+                blockDirection = true;
+            }
+        }
     }
 
     const renderScene = () => {
@@ -50,6 +102,7 @@ export default function Card({card}) {
         renderScene()
         frameId = window.requestAnimationFrame(animate);
         animateCard();
+        previewCardAnimation();
     }
 
 
@@ -59,10 +112,19 @@ export default function Card({card}) {
         }
     }
 
-    // const stop = () => {
-    //     cancelAnimationFrame(frameId)
-    //     frameId = null
-    // }
+
+    const updateTextObjects = (group, card,) => {
+        const z = 0.1;
+        group.add(makeText('Revoult', {x: 1.7, y: 3.5, z}, 1, 1, 'bank-name'));
+    
+        group.add(makeText(card.card_number, {x:-1, y: 3.5, z}, 1, 1,'card-number'));
+        group.add(makeText(`${card.first_name} ${card.last_name}`, {x: -2.25, y: 3.5, z}, 1, 0.8,'card-name'));
+        
+        group.add(makeText('VALID THRU', {x: -1.5, y: -0.8, z}, 1,0.3, 'valid-text'));
+        group.add(makeText(moment(card.card_exp).format('DD/MM/YYYY') , {x: -1.75, y:-0.8, z}, 1,  0.3,'card-exp'));
+
+        group.add(makeText(card.card_secure , {x: 0.1, y: 2.6, z: -0.01}, 0, 0.5,'card-secure'));
+    }
 
 
     const loadObjectPromise = () => {
@@ -161,58 +223,12 @@ export default function Card({card}) {
 
     }
 
-    function creditCardType(cc) {
-
-        if (cc.length < 12) {
-            return undefined;
-        }
-        let amex = new RegExp('^3[47][0-9]{13}$');
-        let visa = new RegExp('^4[0-9]{12}(?:[0-9]{3})?$');
-        let cup1 = new RegExp('^62[0-9]{14}[0-9]*$');
-        let cup2 = new RegExp('^81[0-9]{14}[0-9]*$');
-      
-        let mastercard = new RegExp('^5[1-5][0-9]{14}$');
-        let mastercard2 = new RegExp('^2[2-7][0-9]{14}$');
-      
-        let disco1 = new RegExp('^6011[0-9]{12}[0-9]*$');
-        let disco2 = new RegExp('^62[24568][0-9]{13}[0-9]*$');
-        let disco3 = new RegExp('^6[45][0-9]{14}[0-9]*$');
-        
-        let diners = new RegExp('^3[0689][0-9]{12}[0-9]*$');
-        let jcb =  new RegExp('^35[0-9]{14}[0-9]*$');
-      
-      
-        if (visa.test(cc)) {
-          return 'VISA';
-        }
-        if (amex.test(cc)) {
-          return 'AMEX';
-        }
-        if (mastercard.test(cc) || mastercard2.test(cc)) {
-          return 'MASTERCARD';
-        }
-        if (disco1.test(cc) || disco2.test(cc) || disco3.test(cc)) {
-          return 'DISCOVER';
-        }
-        if (diners.test(cc)) {
-          return 'DINERS';
-        }
-        if (jcb.test(cc)) {
-          return 'JCB';
-        }
-        if (cup1.test(cc) || cup2.test(cc)) {
-          return 'CHINA_UNION_PAY';
-        }
-        return undefined;
-      }
-
-
     useEffect(() => {
 
         console.log('init')
 
-        let width = 500 //mount.current.clientWidth / 2
-        let height = 500
+        let width = 450 //mount.current.clientWidth / 2
+        let height = 450
     
         Promise.all([loadObjectPromise(), loadTextureProcise(), loadFontPromise()]).then(data => {
             // console.log(data)
@@ -244,20 +260,14 @@ export default function Card({card}) {
             const groupText = new THREE.Group();
             groupText.name = 'Group-text'
             const z = 0.1;
-            groupText.add(makeText('Revoult', {x: 1.7, y: 3.5, z}, 1, 1, 'bank-name'));
-    
-            groupText.add(makeText(card.card_number, {x:-1, y: 3.5, z}, 1, 1,'card-number'));
-            groupText.add(makeText(`${card.first_name} ${card.last_name}`, {x: -2.25, y: 3.5, z}, 1, 0.8,'card-name'));
-            
-            groupText.add(makeText('VALID THRU', {x: -1.5, y: -0.8, z}, 1,0.3, 'valid-text'));
-            groupText.add(makeText(card.card_exp , {x: -1.75, y:-0.8, z}, 1,  0.3,'card-exp'));
-    
-            groupText.add(makeText(card.card_secure , {x: 0.1, y: 2.6, z: -0.01}, 0, 1,'card-secure'));
+
+            updateTextObjects(groupText, card, z);
+      
             group.add(groupText);
     
             scene.add(group) 
     
-            camera = new THREE.PerspectiveCamera(1, width / height, 500);
+            camera = new THREE.PerspectiveCamera(1, width / height, 450);
             camera.qulerOrder = 'YXZ';
             window.camera = camera;
             renderer = new THREE.WebGLRenderer({
@@ -298,21 +308,11 @@ export default function Card({card}) {
         const group = scene.getObjectByName('Group-text');
         if (group) {
             group.children = [];
-            const z = 0.1;
-            
-            group.add(makeText('Revoult', {x: 1.7, y: 3.5, z}, 1, 1, 'bank-name'));
-    
-            group.add(makeText(card.card_number, {x:-1, y: 3.5, z}, 1, 1,'card-number'));
-            group.add(makeText(`${card.first_name} ${card.last_name}`, {x: -2.25, y: 3.5, z}, 1, 0.8,'card-name'));
-            
-            group.add(makeText('VALID THRU', {x: -1.5, y: -0.8, z}, 1,0.3, 'valid-text'));
-            group.add(makeText(card.card_exp , {x: -1.75, y:-0.8, z}, 1,  0.3,'card-exp'));
-
-            group.add(makeText(card.card_secure , {x: 0.1, y: 2.6, z: -0.01}, 0, 1,'card-secure'));
+            updateTextObjects(group, card);
         }
 
         }
     }, [card])
 
     return ( <canvas className="Card" ref={mount}/>)
-}
+} 

@@ -4,7 +4,11 @@ import Card from './Card/Card';
 import { storage } from './storage';
 import { useState } from 'react';
 import moment from 'moment';
-
+import { ReloadOutlined } from '@ant-design/icons';
+import {
+  Button
+} from 'antd';
+import {onReturnClick} from './CardForm/CardForm'
 function App() {
   const [details, setDetails] = useState({...storage})
 
@@ -12,7 +16,8 @@ function App() {
     let data = {}
 
     if (attr === 'card_exp') {
-      data = moment(e).format('DD/MM/YYYY');
+      console.log(e, moment(e).format('DD/MM/YYYY'))
+      data = e
     }else {
       console.log(e.target)
       data = e.target.value;
@@ -21,12 +26,15 @@ function App() {
     copy[attr] = data;
     setDetails(copy)
   }
+
+  
   return (
     <div className="App">
-       <>
-        <Card card={{...details}}/>
         <CardForm details={{...details}} handleFormChange={(e, attr) => {handleFormChange(e, attr)}}/>
-      </>
+       <div className="App_Background">
+        <Card card={{...details}}/>
+        <Button ghost={true} className="App_Button" shape="circle"   onClick={e => onReturnClick(e)}icon={<ReloadOutlined />} />
+      </div>
     </div>
   );
 }
