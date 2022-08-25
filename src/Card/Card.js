@@ -35,6 +35,18 @@ const stop = () => {
     frameId = null
 }
 
+let onWindowResize = function () {
+    const width = 0.8*window.innerWidth < 400 ? 380 : 0.8*window.innerWidth;
+    let height = 0.8*window.innerHeight - 300//450
+
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    renderer.setSize( width,  height );
+  }
+
+  window.addEventListener("resize", onWindowResize, false);
+  
+
 export const setPreviewBoolean = (boolean) => {
     preview = boolean;
 }
@@ -227,8 +239,9 @@ export default function Card({card}) {
 
         console.log('init')
 
-        let width = 450 //mount.current.clientWidth / 2
-        let height = 450
+        const width = 0.8*window.innerWidth < 400 ? 380 : 0.8*window.innerWidth;
+        let height = 0.8*window.innerHeight - 300//450
+
     
         Promise.all([loadObjectPromise(), loadTextureProcise(), loadFontPromise()]).then(data => {
             // console.log(data)

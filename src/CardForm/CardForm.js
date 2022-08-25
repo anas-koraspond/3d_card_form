@@ -21,15 +21,23 @@ export const onReturnClick = () => {
   const App = document.querySelector('.App_Background');
   const Return = document.querySelector('.App_Button');
   const CardForm = document.querySelector('.CardForm');
+  const Card = document.querySelector('.Card');
+
   Return.classList.remove('App_Button--Show');
   App.classList.add('App_Animate2');
   App.classList.remove('App_Animate');
   CardForm.classList.remove('CardForm_Animate');
+
+
   setTimeout(() => {
     CardForm.classList.remove('CardForm_Animate--Back');
 
     setPreviewBoolean(false);
     App.classList.remove('App_Animate2');
+    Card.classList.remove('Center');
+    App.classList.remove('Clear');
+
+
   }, 500)
 
 
@@ -51,6 +59,7 @@ export default function Cardform({details,handleFormChange }) {
 
     //make animation
     //take box under 3d
+    const Card = document.querySelector('.Card');
     const App = document.querySelector('.App_Background');
     const Return = document.querySelector('.App_Button');
     const CardForm = document.querySelector('.CardForm');
@@ -67,6 +76,8 @@ export default function Cardform({details,handleFormChange }) {
 
       setTimeout(() => {
         Return.classList.add('App_Button--Show')
+        Card.classList.add('Center');
+        App.classList.add('Clear')
       }, 300)
 
       // CardForm.classList.remove('CardForm_Animate--Back');

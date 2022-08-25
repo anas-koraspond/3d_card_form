@@ -1,4 +1,17 @@
 .Card {
-    min-width: 450px;
+    min-width: 300px;
     cursor: move;
+}
+
+
+@media screen and (max-width: 400px) {
+    .Card {
+        margin: auto;
+
+    }
+    .Card.Center {
+        transform: translateY(50%);
+        transition: all 0.25s ease-in-out;
+    }
+    
 }
