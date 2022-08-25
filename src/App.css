@@ -19,9 +19,14 @@
   display: block !important;
 }
 .App_Background {
-  /* background: rgba(255,255,255, 0.1); */
-  border-radius: 10px;
-  width: 100%;
+    height: 550px;
+    background: hsla(0,0%,100%,.1);
+    border: 5px solid #fff;
+    border-radius: 10px;
+    margin: auto;
+    max-width: 750px;
+    place-items: center;
+    width: 90%;
 }
 .App_Background.Clear {
   background: none !important;
@@ -72,9 +77,13 @@
   }
 }
 
-@media screen and (min-width: 400px) {
+@media screen and (max-width: 430px) {
   .App_Background {
-    height: 550px
+    border-radius: 10px;
+    width: 100%;
+    background: unset;
+    border: unset;
+    height: unset;
   }
 }
 @media screen and (min-height: 1024px) {
