@@ -16,7 +16,7 @@ import {
 } from "three/examples/jsm/loaders/FontLoader";
 import moment from 'moment';
 
-
+let device = 'desktop'
 
 const scene = new THREE.Scene();
 let camera = {};
@@ -34,6 +34,19 @@ const stop = () => {
     cancelAnimationFrame(frameId)
     frameId = null
 }
+
+let onWindowResize = function () {
+    let width = 0.8*window.innerWidth < 400 ? 380 : 0.8*window.innerWidth;
+    width = width > 750 ? 750 : width;
+    let height =( 0.8* window.innerHeight) > 550 ? 550 : ( 0.8* window.innerHeight)//450
+
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    renderer.setSize( width,  height );
+  }
+
+  window.addEventListener("resize", onWindowResize, false);
+  
 
 export const setPreviewBoolean = (boolean) => {
     preview = boolean;
@@ -227,8 +240,10 @@ export default function Card({card}) {
 
         console.log('init')
 
-        let width = 450 //mount.current.clientWidth / 2
-        let height = 450
+        let width = 0.8*window.innerWidth < 400 ? 380 : 0.8*window.innerWidth;
+        width = width > 750 ? 750 : width;
+        let height =( 0.8* window.innerHeight) > 550 ? 550 : ( 0.8* window.innerHeight)//450
+
     
         Promise.all([loadObjectPromise(), loadTextureProcise(), loadFontPromise()]).then(data => {
             // console.log(data)
