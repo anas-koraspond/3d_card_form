@@ -18,19 +18,17 @@ import useDeviceDetect from '../utils/useDeviceDetect';
 
 const scene = new THREE.Scene();
 let camera = {};
-let renderer = null;
-let font = null;
-let blockDirection = true;
+let renderer, font, blockDirection = null;
 let animationSpeed = Math.PI/7 / 100
 let animationPreviewRotate = Math.PI/7 / 10
-let preview = false;
-window.scene = scene;
+let preview, mobile = false;
 let frameId;
 
 let windowDetails = {
     width: window.innerWidth,
     height: window.innerHeight
 }
+const padding = 10;
 
 const stop = () => {
     cancelAnimationFrame(frameId)
@@ -38,9 +36,8 @@ const stop = () => {
 }
 
 let onWindowResize = function () {
-    windowDetails.width = 0.8*window.innerWidth < 430 ? 380 : 0.8*window.innerWidth;
-    windowDetails.width = windowDetails.width > 750 ? 750 : windowDetails.width;
-    windowDetails.height =( 0.8* window.innerHeight) > 550 ? 550 : ( 0.8* window.innerHeight)//450
+    windowDetails.width =( !mobile && window.innerHeight > 750 )? 750 : window.innerWidth - padding;
+    windowDetails.height = window.innerHeight/2 - 2* padding
 
     camera.aspect = windowDetails.width / windowDetails.height;
     camera.updateProjectionMatrix();
@@ -54,7 +51,6 @@ export const setPreviewBoolean = (boolean) => {
     preview = boolean;
 }
 const previewCardAnimation = () => {
-    console.log('animate preview', preview)
 
     if (!preview) {
         return;
@@ -79,6 +75,7 @@ const previewCardAnimation = () => {
 export default function Card({card}) {
     const mount = useRef();
     const { isMobile } = useDeviceDetect();
+    mobile = isMobile;
 
 
     // instantiate a loader
@@ -87,7 +84,7 @@ export default function Card({card}) {
     const fontLoader = new FontLoader();
 
     const animateCard = () => {
-        console.log('animate card', preview)
+        // console.log('animate card', preview)
         if (preview) {
             return;
         }
@@ -134,7 +131,8 @@ export default function Card({card}) {
         group.add(makeText('Revoult', {x: 1.7, y: 3.5, z}, 1, 1, 'bank-name'));
     
         group.add(makeText(card.card_number, {x:-1, y: 3.5, z}, 1, 1,'card-number'));
-        group.add(makeText(`${card.first_name} ${card.last_name}`, {x: -2.25, y: 3.5, z}, 1, 0.8,'card-name'));
+        const nameFontSize = `${card.first_name} ${card.last_name}`.length >= 16 ? 0.4 : 0.8;
+        group.add(makeText(`${card.first_name} ${card.last_name}`, {x: -2.25, y: 3.5, z}, 1,nameFontSize,'card-name'));
         
         group.add(makeText('VALID THRU', {x: -1.5, y: -0.8, z}, 1,0.3, 'valid-text'));
         group.add(makeText(moment(card.card_exp).format('DD/MM/YYYY') , {x: -1.75, y:-0.8, z}, 1,  0.3,'card-exp'));
@@ -241,14 +239,6 @@ export default function Card({card}) {
 
     useEffect(() => {
 
-
-        console.log('init')
-        windowDetails.width = 0.8*window.innerWidth < 430 ? 380 : 0.8*window.innerWidth;
-        windowDetails.width = windowDetails.width > 750 ? 750 : windowDetails.width;
-        windowDetails.height =( 0.8* window.innerHeight) > 550 ? 550 : ( 0.8* window.innerHeight)//450
-
-
-        const padding = 10;
         windowDetails.width =( !isMobile && window.innerHeight > 750 )? 750 : window.innerWidth - padding;
         windowDetails.height = window.innerHeight/2 - 2* padding
     

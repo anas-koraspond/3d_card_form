@@ -8,60 +8,23 @@ import {
 } from 'antd';
 import React, { useState } from 'react';
 import 'antd/dist/antd.css';
-import './CardForm.css';
+import './Gui.css';
 import moment from 'moment'
 import Cleave from 'cleave.js/react';
 import {setPreviewBoolean} from '../Card/Card'
+import { onFinishAnimation } from '../Animations/onFinishAnimation';
+import { onReturnAnimation } from '../Animations/onReturnAnimation';
 
-const CardFormEl = ({children}) => {
-  return <div className="CardForm">{children}</div>
+const GuiElement = ({children}) => {
+  return <div className="Gui">{children}</div>
 } 
 
-const onFinishAnimation = (callback) => {
-  const Card = document.querySelector('.Card');
-  const App = document.querySelector('.App_CardSection');
-  const Return = document.querySelector('.App_Button');
-  const CardForm = document.querySelector('.CardForm');
-  setTimeout(() => {
-    CardForm.classList.add('CardForm_Animate--Back');
-    setTimeout(() => {
-    CardForm.classList.remove('CardForm_Animate');
-    callback()
 
-    setTimeout(() => {
-      Return.classList.add('App_Button--Show')
-      Card.classList.add('Center');
-      App.classList.add('Clear')
-    }, 300)
-    }, 500)
-  }, 500)
-}
-
-const onReturnAnimation = (callback) => {
-  const App = document.querySelector('.App_CardSection');
-  const Return = document.querySelector('.App_Button');
-  const CardForm = document.querySelector('.CardForm');
-  const Card = document.querySelector('.Card');
-
-  Return.classList.remove('App_Button--Show');
-  App.classList.add('App_Animate2');
-  App.classList.remove('App_Animate');
-  CardForm.classList.remove('CardForm_Animate');
-
-
-  setTimeout(() => {
-    CardForm.classList.remove('CardForm_Animate--Back');
-    setPreviewBoolean(false);
-    App.classList.remove('App_Animate2');
-    Card.classList.remove('Center');
-    App.classList.remove('Clear');
-  }, 500)
-}
 export const onReturnClick = () => onReturnAnimation(() => setPreviewBoolean(false));
 
-export default function Cardform({details,handleFormChange }) {
+export default function Gui({details,handleFormChange }) {
   
-  const [componentSize, setComponentSize] = useState('default')
+  const [componentSize, setComponentSize] = useState('default');
 
   const onFormLayoutChange = ({ size }) => {
     setComponentSize(size);
@@ -74,7 +37,7 @@ export default function Cardform({details,handleFormChange }) {
 
     return (
 
-        <CardFormEl>
+        <GuiElement>
           <Form
           labelAlign="left"
           layout="horizontal"
@@ -112,12 +75,12 @@ export default function Cardform({details,handleFormChange }) {
           <Row >
             <Col span={12} > 
               <Form.Item label={'Name'} labelCol={{ span:8 }} name="first_name" rules={[{required: true,message: "Please input your first name!"}]}
-                    wrapperCol={{ span: 14 }}><Input   value={details.first_name || ''} onChange={e => handleFormChange(e, 'first_name')}/></Form.Item>
+                    wrapperCol={{ span: 14 }}><Input maxLength={18} value={details.first_name || ''} onChange={e => handleFormChange(e, 'first_name')}/></Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item label={'Surname'} labelCol={{ span: 8 }} name="last_name" rules={[{required: true,message: "Please input your last name!"}]}
                       wrapperCol={{ span: 14 }}>
-                <Input  value={details.last_name || ''} onChange={e => handleFormChange(e, 'last_name')}/>
+                <Input maxLength={18} value={details.last_name || ''} onChange={e => handleFormChange(e, 'last_name')}/>
               </Form.Item>
             </Col>
           </Row>
@@ -160,6 +123,6 @@ export default function Cardform({details,handleFormChange }) {
             </Col>
           </Row>
         </Form>
-        </CardFormEl>
+        </GuiElement>
   );
   }

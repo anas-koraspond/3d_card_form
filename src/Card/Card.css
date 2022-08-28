@@ -3,13 +3,12 @@
     cursor: move;
 }
 
-
 @media screen and (max-width: 403px) {
     .Card {
         margin: auto;
 
     }
-    .Card.Center {
+    .Card.Card_Animate--Center {
         transform: translateY(50%);
         transition: all 0.25s ease-in-out;
     }

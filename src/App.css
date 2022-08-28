@@ -20,8 +20,7 @@
   display: block !important;
 }
 
-.App_CardSection {
-  /* height: 550px; */
+.App_Frame {
   background: hsla(0, 0%, 100%, .1);
   border: 5px solid #fff;
   border-radius: 10px;
@@ -31,16 +30,16 @@
   width: 90%;
 }
 
-.App_CardSection.Clear {
+.App_Frame.App_Frame--Clear {
   background: none !important;
 }
 
-.App_CardSection.App_Animate {
+.App_Frame.App_Animate {
   background: rgba(255, 255, 255, 0.5);
   transition: all 1s ease-in-out;
 }
 
-.App_Animate2 {
+.App_Frame.App_Animate--Hide {
   background: rgba(255, 255, 255, 1);
   transform: scale(2);
   opacity: 0;
@@ -84,7 +83,7 @@
 }
 
 @media screen and (max-width: 430px) {
-  .App_CardSection {
+  .App_Frame {
     border-radius: 10px;
     width: 100%;
     background: unset;
@@ -94,7 +93,7 @@
 }
 
 @media screen and (min-height: 1024px) {
-  .App_CardSection {
+  .App_Frame {
     height: 550px
   }
 }

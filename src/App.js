@@ -1,14 +1,14 @@
 import './App.css';
-import CardForm from './CardForm/CardForm';
+import Gui from './Gui/Gui';
 import Card from './Card/Card';
 import { storage } from './storage';
 import { useState } from 'react';
-import moment from 'moment';
 import { ReloadOutlined } from '@ant-design/icons';
 import {
   Button
 } from 'antd';
-import {onReturnClick} from './CardForm/CardForm'
+import {onReturnClick} from './Gui/Gui';
+
 function App() {
   const [details, setDetails] = useState({...storage})
 
@@ -16,27 +16,25 @@ function App() {
     let data = {}
 
     if (attr === 'card_exp') {
-      console.log(e, moment(e).format('DD/MM/YYYY'))
-      data = e
+      data = e;
     }else {
-      console.log(e.target)
       data = e.target.value;
     }
-    const copy = {...details}
+    const copy = {...details};
     copy[attr] = data;
-    setDetails(copy)
+    setDetails(copy);
   }
 
   
   return (
     <div className="App">
-        <CardForm details={{...details}} handleFormChange={(e, attr) => {handleFormChange(e, attr)}}/>
-       <div className="App_CardSection">
-        <Card card={{...details}}/>
-        <Button ghost={true} className="App_Button" shape="circle"   onClick={e => onReturnClick(e)}icon={<ReloadOutlined />} />
+        <Gui className="App_Form"details={{...details}} handleFormChange={(e, attr) => {handleFormChange(e, attr)}}/>
+       <div className="App_Frame">
+        <Card className="App_Card" card={{...details}}/>
+        <Button ghost={true} className="App_Button App_Button--Return" shape="circle" onClick={e => onReturnClick(e)}icon={<ReloadOutlined />} />
       </div>
     </div>
-  );
+  ); 
 }
 
 export default App;
