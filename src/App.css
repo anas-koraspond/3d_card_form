@@ -2,41 +2,45 @@
   text-align: center;
   display: flex;
   align-items: start;
-  /* justify-content: space-between; */
   flex-direction: column-reverse;
   width: 100%;
   height: 100%;
 }
+
 .App_Button {
   position: absolute !important;
-    margin: auto;
-    left: 0;
-    right: 0;
-    display: none !important;
-    top: calc(50% + 295px);
+  margin: auto;
+  left: 0;
+  right: 0;
+  display: none !important;
+  top: calc(50% + 295px);
 }
+
 .App_Button--Show {
   display: block !important;
 }
-.App_Background {
-    height: 550px;
-    background: hsla(0,0%,100%,.1);
-    border: 5px solid #fff;
-    border-radius: 10px;
-    margin: auto;
-    max-width: 750px;
-    place-items: center;
-    width: 90%;
+
+.App_Frame {
+  background: hsla(0, 0%, 100%, .1);
+  border: 5px solid #fff;
+  border-radius: 10px;
+  margin: auto;
+  max-width: 750px;
+  place-items: center;
+  width: 90%;
 }
-.App_Background.Clear {
+
+.App_Frame.App_Frame--Clear {
   background: none !important;
 }
-.App_Background.App_Animate {
-  background: rgba(255,255,255,0.5);
+
+.App_Frame.App_Animate {
+  background: rgba(255, 255, 255, 0.5);
   transition: all 1s ease-in-out;
 }
-.App_Animate2 {
-  background: rgba(255,255,255,1);
+
+.App_Frame.App_Animate--Hide {
+  background: rgba(255, 255, 255, 1);
   transform: scale(2);
   opacity: 0;
   transition: all 0.5s ease-in-out;
@@ -72,13 +76,14 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
 @media screen and (max-width: 430px) {
-  .App_Background {
+  .App_Frame {
     border-radius: 10px;
     width: 100%;
     background: unset;
@@ -86,8 +91,9 @@
     height: unset;
   }
 }
+
 @media screen and (min-height: 1024px) {
-  .App_Background {
+  .App_Frame {
     height: 550px
   }
 }

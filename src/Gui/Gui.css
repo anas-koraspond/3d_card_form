@@ -1,4 +1,4 @@
-.CardForm {
+.Gui {
     width: 100%;
     color: #fff;
     max-width: 570px;
@@ -13,44 +13,26 @@
 }
 
 
-.CardForm.CardForm_Animate {
+.Gui.Gui_Animate {
     transform: translateY(130px);
     transition: all 0.5s ease-in-out;
 }
 
-.CardForm.CardForm_Animate--Back {
+.Gui.Gui_Animate--Hide {
     transform: translateY(-200px);
     opacity: 0;
     transition: all 0.5s ease-in-out;
 }
 
 @media screen and (min-height: 1024px) {
-    .CardForm {
+    .Gui {
         top: calc(50% + 230px);
     
     }
 }
 
 @media screen and (max-width: 430px) {
-    .CardForm {
+    .Gui {
         position: unset;
     }
 }
-/* 
-@media screen and (max-width: 1400px) {
-    .CardForm {
-        bottom: 0;
-        top: unset;
-        left: 0;
-        right: 0;
-    }
-}
-
-@media screen and (max-width: 700px) {
-    .CardForm {
-        bottom: unset;
-        top: calc(80%);
-        left: 0;
-        right: 0;
-    }
-} */
