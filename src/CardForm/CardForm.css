@@ -36,21 +36,3 @@
         position: unset;
     }
 }
-/* 
-@media screen and (max-width: 1400px) {
-    .CardForm {
-        bottom: 0;
-        top: unset;
-        left: 0;
-        right: 0;
-    }
-}
-
-@media screen and (max-width: 700px) {
-    .CardForm {
-        bottom: unset;
-        top: calc(80%);
-        left: 0;
-        right: 0;
-    }
-} */

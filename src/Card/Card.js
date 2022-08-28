@@ -10,13 +10,11 @@ import {
     useEffect
 } from 'react'
 import './Card.css'
-// import typefaceFont from 'three/examples/fonts/helvetiker_regular.typeface.json'
 import {
     FontLoader
 } from "three/examples/jsm/loaders/FontLoader";
 import moment from 'moment';
-
-let device = 'desktop'
+import useDeviceDetect from '../utils/useDeviceDetect';
 
 const scene = new THREE.Scene();
 let camera = {};
@@ -29,6 +27,10 @@ let preview = false;
 window.scene = scene;
 let frameId;
 
+let windowDetails = {
+    width: window.innerWidth,
+    height: window.innerHeight
+}
 
 const stop = () => {
     cancelAnimationFrame(frameId)
@@ -36,13 +38,13 @@ const stop = () => {
 }
 
 let onWindowResize = function () {
-    let width = 0.8*window.innerWidth < 400 ? 380 : 0.8*window.innerWidth;
-    width = width > 750 ? 750 : width;
-    let height =( 0.8* window.innerHeight) > 550 ? 550 : ( 0.8* window.innerHeight)//450
+    windowDetails.width = 0.8*window.innerWidth < 430 ? 380 : 0.8*window.innerWidth;
+    windowDetails.width = windowDetails.width > 750 ? 750 : windowDetails.width;
+    windowDetails.height =( 0.8* window.innerHeight) > 550 ? 550 : ( 0.8* window.innerHeight)//450
 
-    camera.aspect = width / height;
+    camera.aspect = windowDetails.width / windowDetails.height;
     camera.updateProjectionMatrix();
-    renderer.setSize( width,  height );
+    renderer.setSize( windowDetails.width,  windowDetails.height );
   }
 
   window.addEventListener("resize", onWindowResize, false);
@@ -59,7 +61,6 @@ const previewCardAnimation = () => {
     }
 
     const card = scene.getObjectByName('Card-group');
-
     const stop = 35 * 3.6;
     const angle = animationPreviewRotate;
     if (card.rotation.y < stop) {
@@ -76,7 +77,9 @@ const previewCardAnimation = () => {
 }
 
 export default function Card({card}) {
-    const mount = useRef()
+    const mount = useRef();
+    const { isMobile } = useDeviceDetect();
+
 
     // instantiate a loader
     const objectLoader = new OBJLoader();
@@ -238,12 +241,16 @@ export default function Card({card}) {
 
     useEffect(() => {
 
+
         console.log('init')
+        windowDetails.width = 0.8*window.innerWidth < 430 ? 380 : 0.8*window.innerWidth;
+        windowDetails.width = windowDetails.width > 750 ? 750 : windowDetails.width;
+        windowDetails.height =( 0.8* window.innerHeight) > 550 ? 550 : ( 0.8* window.innerHeight)//450
 
-        let width = 0.8*window.innerWidth < 400 ? 380 : 0.8*window.innerWidth;
-        width = width > 750 ? 750 : width;
-        let height =( 0.8* window.innerHeight) > 550 ? 550 : ( 0.8* window.innerHeight)//450
 
+        const padding = 10;
+        windowDetails.width =( !isMobile && window.innerHeight > 750 )? 750 : window.innerWidth - padding;
+        windowDetails.height = window.innerHeight/2 - 2* padding
     
         Promise.all([loadObjectPromise(), loadTextureProcise(), loadFontPromise()]).then(data => {
             // console.log(data)
@@ -282,7 +289,7 @@ export default function Card({card}) {
     
             scene.add(group) 
     
-            camera = new THREE.PerspectiveCamera(1, width / height, 450);
+            camera = new THREE.PerspectiveCamera(1, windowDetails.width / windowDetails.height, 450);
             camera.qulerOrder = 'YXZ';
             window.camera = camera;
             renderer = new THREE.WebGLRenderer({
@@ -309,7 +316,7 @@ export default function Card({card}) {
             const dirLight1 = new THREE.SpotLight(0xccccc, 1);
             dirLight1.position.set(10, 0, 0);
             scene.add(dirLight1);
-            renderer.setSize(width, height)
+            renderer.setSize(windowDetails.width, windowDetails.height)
             
             start()
     

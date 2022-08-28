@@ -31,7 +31,7 @@ function App() {
   return (
     <div className="App">
         <CardForm details={{...details}} handleFormChange={(e, attr) => {handleFormChange(e, attr)}}/>
-       <div className="App_Background">
+       <div className="App_CardSection">
         <Card card={{...details}}/>
         <Button ghost={true} className="App_Button" shape="circle"   onClick={e => onReturnClick(e)}icon={<ReloadOutlined />} />
       </div>
