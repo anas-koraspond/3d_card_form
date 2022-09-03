@@ -3,14 +3,14 @@
     cursor: move;
 }
 
-@media screen and (max-width: 403px) {
+@media screen and (max-width: 420px) {
     .Card {
         margin: auto;
 
     }
     .Card.Card_Animate--Center {
         transform: translateY(50%);
-        transition: all 0.25s ease-in-out;
+        transition: all 0.4s ease-in-out;
     }
     
 }
