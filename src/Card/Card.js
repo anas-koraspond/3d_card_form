@@ -21,31 +21,31 @@ let camera = {};
 let renderer, font, blockDirection = null;
 let animationSpeed = Math.PI/7 / 100
 let animationPreviewRotate = Math.PI/7 / 10
-let preview, mobile = false;
+let preview, memoCollapsed = false;
 let frameId;
+let isMobile = false;
 
 let windowDetails = {
-    width: window.innerWidth,
-    height: window.innerHeight
+    width:  window.innerWidth > 750 ? 750 : window.innerWidth,
+    height: window.innerWidth > 750 ? 350 : window.innerWidth/2,
 }
-const padding = 10;
+
 
 const stop = () => {
     cancelAnimationFrame(frameId)
     frameId = null
 }
 
-let onWindowResize = function () {
-    windowDetails.width =( !mobile && window.innerHeight > 750 )? 750 : window.innerWidth - padding;
-    windowDetails.height = window.innerHeight/2 - 2* padding
 
+let onWindowResize = function () {
+    windowDetails.width = isMobile && memoCollapsed ? 50 : window.innerWidth > 750 ? 750 : window.innerWidth;
+    windowDetails.height = isMobile && memoCollapsed ? 100 : windowDetails.width /2
     camera.aspect = windowDetails.width / windowDetails.height;
     camera.updateProjectionMatrix();
     renderer.setSize( windowDetails.width,  windowDetails.height );
   }
+window.addEventListener("resize", onWindowResize, false);
 
-  window.addEventListener("resize", onWindowResize, false);
-  
 
 export const setPreviewBoolean = (boolean) => {
     preview = boolean;
@@ -72,12 +72,11 @@ const previewCardAnimation = () => {
     }
 }
 
-export default function Card({card}) {
+export default function Card({card, collapse}) {
+    console.log("🚀 ~ file: Card.js ~ line 74 ~ Card ~ isMobile", isMobile)
     const mount = useRef();
-    const { isMobile } = useDeviceDetect();
-    mobile = isMobile;
 
-
+    isMobile = useDeviceDetect().isMobile;
     // instantiate a loader
     const objectLoader = new OBJLoader();
     const textureLoader = new THREE.TextureLoader();
@@ -238,12 +237,19 @@ export default function Card({card}) {
     }
 
     useEffect(() => {
+        memoCollapsed = collapse;
 
-        windowDetails.width =( !isMobile && window.innerHeight > 750 )? 750 : window.innerWidth - padding;
-        windowDetails.height = window.innerHeight/2 - 2* padding
+        windowDetails.width = isMobile && collapse ? 50 : window.innerWidth > 750 ? 750 : window.innerWidth;
+        console.log("🚀 ~ file: Card.js ~ line 242 ~ useEffect ~ windowDetails", windowDetails)
+        windowDetails.height = isMobile && collapse ? 100 : isMobile ? windowDetails.width/1.2 : windowDetails.width /2;
+
+
+
+
+        console.log("🚀 ~ file: Card.js ~ line 244 ~ useEffect ~ windowDetails", windowDetails)
     
         Promise.all([loadObjectPromise(), loadTextureProcise(), loadFontPromise()]).then(data => {
-            // console.log(data)
+            // console.log(data) z
             const object = data[0];
             const texture = data[1];
             font = data[2];
@@ -315,16 +321,32 @@ export default function Card({card}) {
     }, [])
 
     useEffect(() => {
+
+
+
         console.log('CARD', card)
         if (card) {
         const group = scene.getObjectByName('Group-text');
         if (group) {
             group.children = [];
             updateTextObjects(group, card);
+            windowDetails.width = isMobile && collapse ? 50 : window.innerWidth > 750 ? 750 : window.innerWidth;
+            console.log("🚀 ~ file: Card.js ~ line 242 ~ useEffect ~ windowDetails", windowDetails)
+            windowDetails.height = isMobile && collapse ? 100 : isMobile ? windowDetails.width/1.5 : windowDetails.width /2;
+            renderer && renderer.setSize(windowDetails.width, windowDetails.height);
         }
 
         }
     }, [card])
 
-    return ( <canvas className="Card" ref={mount}/>)
+    useEffect(() => {
+        memoCollapsed = collapse;
+        windowDetails.width = isMobile && collapse ? 50 : window.innerWidth > 750 ? 750 : window.innerWidth;
+        console.log("🚀 ~ file: Card.js ~ line 242 ~ useEffect ~ windowDetails", windowDetails)
+        windowDetails.height = isMobile && collapse ? 100 : isMobile ? windowDetails.width/1.5 : windowDetails.width /2;
+        renderer && renderer.setSize(windowDetails.width, windowDetails.height);
+
+    }, [collapse])
+
+    return ( <canvas className={isMobile && collapse ? "Card Card__Collapse" : "Card"}ref={mount}/>)
 } 
