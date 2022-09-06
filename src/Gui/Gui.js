@@ -11,11 +11,9 @@ import 'antd/dist/antd.css';
 import './Gui.css';
 import moment from 'moment'
 import Cleave from 'cleave.js/react';
-import {setPreviewBoolean} from '../Card/Card'
+import {setPreviewBoolean} from '../Scene/Scene'
 import { onFinishAnimation } from '../Animations/onFinishAnimation';
 import { onReturnAnimation } from '../Animations/onReturnAnimation';
-import useDeviceDetect from '../utils/useDeviceDetect';
-let isMobile = false;
 
 const GuiElement = ({children, className}) => {
   return <div className={className}>{children}</div>
@@ -24,10 +22,7 @@ const GuiElement = ({children, className}) => {
 
 export const onReturnClick = () => onReturnAnimation(() => setPreviewBoolean(false));
 
-export default function Gui({details, handleFormChange, collapse, handleCollapse }) {
-  console.log("🚀 ~ file: Gui.js ~ line 26 ~ Gui ~ collapse", collapse)
-  // console.log("🚀 ~ file: Gui.js ~ line 26 ~ Gui ~ isMobile", isMobile)
-  isMobile = useDeviceDetect().isMobile;
+export default function Gui({details, handleFormChange, collapse, handleCollapse, isMobile }) {
   
   const [componentSize, setComponentSize] = useState('default');
 

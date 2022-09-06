@@ -1,6 +1,6 @@
 import './App.css';
 import Gui from './Gui/Gui';
-import Card from './Card/Card';
+import Scene from './Scene/Scene';
 import { storage } from './storage';
 import { useState } from 'react';
 import { ReloadOutlined } from '@ant-design/icons';
@@ -39,7 +39,7 @@ function App() {
     <div className="App">
         <Gui className="App_Form"details={{...details}} handleFormChange={(e, attr) => {handleFormChange(e, attr)}} handleCollapse={(show) => {handleCollapse(show)}} collapse={collapse}/>
        <div className="App_Frame">
-        <Card className="App_Card" card={{...details}} collapse={collapse}/>
+        <Scene className="App_Card" card={{...details}} collapse={collapse}/>
         <Button ghost={true} className="App_Button App_Button--Return" shape="circle" onClick={e => onReturnClick(e)}icon={<ReloadOutlined />} />
       </div>
     </div>

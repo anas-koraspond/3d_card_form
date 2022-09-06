@@ -1,9 +1,9 @@
-.Card {
+.Scene {
     min-width: 300px;
     cursor: move;
 }
 
-.Card__Collapse {
+.Scene__Collapse {
     position: absolute !important;
     top: 0;
     min-height: 100px;
@@ -16,11 +16,11 @@
 }
 
 @media screen and (max-width: 420px) {
-    .Card {
+    .Scene {
         margin: auto;
 
     }
-    /* .Card.Card_Animate--Center {
+    /* .Scene.Scene_Animate--Center {
         transform: translateY(50%);
         transition: all 0.4s ease-in-out;
     }
