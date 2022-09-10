@@ -11,18 +11,18 @@ import 'antd/dist/antd.css';
 import './Gui.css';
 import moment from 'moment'
 import Cleave from 'cleave.js/react';
-import {setPreviewBoolean} from '../Card/Card'
+import {setPreviewBoolean} from '../Scene/Scene'
 import { onFinishAnimation } from '../Animations/onFinishAnimation';
 import { onReturnAnimation } from '../Animations/onReturnAnimation';
 
-const GuiElement = ({children}) => {
-  return <div className="Gui">{children}</div>
+const GuiElement = ({children, className}) => {
+  return <div className={className}>{children}</div>
 } 
 
 
 export const onReturnClick = () => onReturnAnimation(() => setPreviewBoolean(false));
 
-export default function Gui({details,handleFormChange }) {
+export default function Gui({details, handleFormChange, collapse, handleCollapse, isMobile }) {
   
   const [componentSize, setComponentSize] = useState('default');
 
@@ -32,12 +32,19 @@ export default function Gui({details,handleFormChange }) {
 
 
   const onFinish = () => onFinishAnimation(() => setPreviewBoolean(true));
+  const onFocus = () => {
+    isMobile && handleCollapse(true); 
+  };
+  const onBlur = () => {
+    isMobile && handleCollapse(false);
+
+  }
 
   const onFinishFailed = (errorInfo) => console.error('Failed:', errorInfo);
 
     return (
 
-        <GuiElement>
+        <GuiElement className={isMobile && collapse ? 'Gui Gui__Collapse' : 'Gui'}>
           <Form
           labelAlign="left"
           layout="horizontal"
@@ -75,12 +82,14 @@ export default function Gui({details,handleFormChange }) {
           <Row >
             <Col span={12} > 
               <Form.Item label={'Name'} labelCol={{ span:8 }} name="first_name" rules={[{required: true,message: "Please input your first name!"}]}
-                    wrapperCol={{ span: 14 }}><Input maxLength={18} value={details.first_name || ''} onChange={e => handleFormChange(e, 'first_name')}/></Form.Item>
+                    wrapperCol={{ span: 14 }}><Input onFocus={ onFocus } 
+                    onBlur={ onBlur } maxLength={18} value={details.first_name || ''} onChange={e => handleFormChange(e, 'first_name')}/></Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item label={'Surname'} labelCol={{ span: 8 }} name="last_name" rules={[{required: true,message: "Please input your last name!"}]}
                       wrapperCol={{ span: 14 }}>
-                <Input maxLength={18} value={details.last_name || ''} onChange={e => handleFormChange(e, 'last_name')}/>
+                <Input maxLength={18} onFocus={ onFocus } 
+                    onBlur={ onBlur } value={details.last_name || ''} onChange={e => handleFormChange(e, 'last_name')}/>
               </Form.Item>
             </Col>
           </Row>
@@ -93,6 +102,8 @@ export default function Gui({details,handleFormChange }) {
                           options={{creditCard: true,     numericOnly: true}}
                           value={details.card_number || ''} 
                           className={'ant-input'}
+                          onFocus={ onFocus } 
+                    onBlur={ onBlur }
                           onChange={e => handleFormChange(e, 'card_number')} />
                     </Form.Item>
 
@@ -113,6 +124,8 @@ export default function Gui({details,handleFormChange }) {
                             numericOnly: true}}
                           value={details.card_secure || ''} 
                           className={'ant-input'}
+                          onFocus={ onFocus } 
+                    onBlur={ onBlur }
                           onChange={e => handleFormChange(e, 'card_secure')} />
                     </Form.Item>
             </Col>

@@ -12,6 +12,13 @@
     margin: auto;
 }
 
+.Gui__Collapse {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    top: 105px;
+}
+
 
 .Gui.Gui_Animate {
     transform: translateY(130px);
@@ -31,8 +38,8 @@
     }
 }
 
-@media screen and (max-width: 430px) {
+/* @media screen and (max-width: 430px) {
     .Gui {
         position: unset;
     }
-}
+} */

@@ -9,47 +9,45 @@ import {
     useRef,
     useEffect
 } from 'react'
-import './Card.css'
+import './Scene.css'
 import {
     FontLoader
 } from "three/examples/jsm/loaders/FontLoader";
-import moment from 'moment';
+import moment, { isMoment } from 'moment';
 import useDeviceDetect from '../utils/useDeviceDetect';
 
 const scene = new THREE.Scene();
-let camera = {};
+let camera = null;
 let renderer, font, blockDirection = null;
 let animationSpeed = Math.PI/7 / 100
 let animationPreviewRotate = Math.PI/7 / 10
-let preview, mobile = false;
+let preview, memoCollapsed = false;
 let frameId;
 
 let windowDetails = {
-    width: window.innerWidth,
-    height: window.innerHeight
+    width:  window.innerWidth > 750 ? 750 : window.innerWidth,
+    height: window.innerWidth > 750 ? 350 : window.innerWidth/2,
 }
-const padding = 10;
+
 
 const stop = () => {
     cancelAnimationFrame(frameId)
     frameId = null
 }
 
-let onWindowResize = function () {
-    windowDetails.width =( !mobile && window.innerHeight > 750 )? 750 : window.innerWidth - padding;
-    windowDetails.height = window.innerHeight/2 - 2* padding
 
-    camera.aspect = windowDetails.width / windowDetails.height;
-    camera.updateProjectionMatrix();
-    renderer.setSize( windowDetails.width,  windowDetails.height );
+let onWindowResize = function (isMobile) {
+    windowDetails.width = isMobile && memoCollapsed ? window.innerWidth : window.innerWidth > 750 ? 750 : window.innerWidth;
+    windowDetails.height = isMobile && memoCollapsed ? 100 : windowDetails.width /2
+    if (camera) {
+      camera.aspect = windowDetails.width / windowDetails.height;
+      camera.updateProjectionMatrix();
+    }
+    renderer && renderer.setSize( windowDetails.width,  windowDetails.height );
   }
 
-  window.addEventListener("resize", onWindowResize, false);
-  
+export const setPreviewBoolean = boolean => preview = boolean;
 
-export const setPreviewBoolean = (boolean) => {
-    preview = boolean;
-}
 const previewCardAnimation = () => {
 
     if (!preview) {
@@ -72,12 +70,8 @@ const previewCardAnimation = () => {
     }
 }
 
-export default function Card({card}) {
+export default function Scene({card, collapse, isMobile}) {
     const mount = useRef();
-    const { isMobile } = useDeviceDetect();
-    mobile = isMobile;
-
-
     // instantiate a loader
     const objectLoader = new OBJLoader();
     const textureLoader = new THREE.TextureLoader();
@@ -146,7 +140,7 @@ export default function Card({card}) {
                     // load a resource
         objectLoader.load(
             // resource URL
-            'models/Credit_Card.obj',
+            'models/CreditCard.obj',
             // called when resource is loaded
             function (object) {
                 resolve(object)
@@ -170,7 +164,7 @@ export default function Card({card}) {
                         // load a resource 
             textureLoader.load(
             // resource URL
-            'test/TextureTest.jpg',
+            'textures/VisaTexture.jpg',
 
             // onLoad callback
             function (texture) {
@@ -205,8 +199,6 @@ export default function Card({card}) {
                     reject();
                 }
             );
-
-
         });
     }
 
@@ -238,12 +230,12 @@ export default function Card({card}) {
     }
 
     useEffect(() => {
+        memoCollapsed = collapse;
+        onWindowResize(isMobile)
 
-        windowDetails.width =( !isMobile && window.innerHeight > 750 )? 750 : window.innerWidth - padding;
-        windowDetails.height = window.innerHeight/2 - 2* padding
     
         Promise.all([loadObjectPromise(), loadTextureProcise(), loadFontPromise()]).then(data => {
-            // console.log(data)
+            // console.log(data) z
             const object = data[0];
             const texture = data[1];
             font = data[2];
@@ -311,20 +303,26 @@ export default function Card({card}) {
             start()
     
         })
+        window.addEventListener("resize", onWindowResize(isMobile), false);
+
 
     }, [])
 
     useEffect(() => {
-        console.log('CARD', card)
         if (card) {
-        const group = scene.getObjectByName('Group-text');
-        if (group) {
-            group.children = [];
-            updateTextObjects(group, card);
-        }
-
+          const group = scene.getObjectByName('Group-text');
+          if (group) {
+              group.children = [];
+              updateTextObjects(group, card);
+              onWindowResize(isMobile)
+          }
         }
     }, [card])
 
-    return ( <canvas className="Card" ref={mount}/>)
+    useEffect(() => {
+        memoCollapsed = collapse;
+        onWindowResize(isMobile);
+    }, [collapse])
+
+    return ( <canvas className={isMobile && collapse ? "Card Card__Collapse" : "Card"}ref={mount}/>)
 } 
