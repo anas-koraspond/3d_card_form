@@ -1,99 +1,194 @@
 .App {
-  text-align: center;
-  /* display: flex;
-  align-items: start;
-  flex-direction: column-reverse; */
-  width: 100%;
-  height: 100%;
-}
-
-.App_Button {
-  position: absolute !important;
-  margin: auto;
-  left: 0;
-  right: 0;
-  display: none !important;
-  top: calc(50% + 295px);
-}
-
-.App_Button--Show {
-  display: block !important;
+    font-family: 'SpaceGrotesk';
+    max-width: 1920px;
+    /* background-color: pink; */
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
 }
 
 .App_Frame {
-  background: hsla(0, 0%, 100%, .1);
-  border: 5px solid #fff;
-  border-radius: 10px;
-  margin: auto;
-  max-width: 750px;
-  place-items: center;
-  width: 90%;
+    position: absolute;
+    width: 100%; 
+    min-width:375px;
+    height: 240px;
+    left: 0px;
+    top: 0px;
+    
+    background: #21092F;
+    display: flex;
+    justify-content: center;
 }
 
-.App_Frame.App_Frame--Clear {
-  background: none !important;
+.Gui {
+    position: absolute;
+    width: 327px;
+    height: 328px;
+    left: 24px;
+    top: 331px;
+    
+    
+}
+.Card {
+    max-width: 457px;;
+    max-height: 457px;;
+
+}
+.App_Card {
+    width: 300px;
+
+}
+.App_Card--Back {
+    top: 20px;
+    position: absolute;
+    margin: auto;
+    right: 20px;
+}
+.Gui_Form {
+    margin-top: 48px;
+
+}
+.Gui_Confirmed {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+margin-top: 48px;
+
+}
+.Gui_Actions {
+    margin-top: 48px;
+}
+.Gui_Confirm {
+    font-family: 'SpaceGrotesk';
+font-style: normal;
+font-weight: 500;
+font-size: 18px;
+line-height: 23px;
+/* identical to box height */
+
+
+/* White */
+
+color: #FFFFFF;
+}
+.Gui_header {
+    /* Heading (XL) */
+
+font-family: 'SpaceGrotesk';
+font-style: normal;
+font-weight: 500;
+font-size: 28px;
+line-height: 36px;
+/* identical to box height */
+
+text-align: center;
+letter-spacing: 3.42222px;
+
+/* Deep Violet */
+
+color: #21092F;
+}
+.Gui_info {
+    /* Heading (L) */
+
+font-family: 'SpaceGrotesk';
+font-style: normal;
+font-weight: 500;
+font-size: 18px;
+line-height: 23px;
+/* identical to box height */
+
+text-align: center;
+
+/* Purplish Grey */
+
+color: #8F8694;
 }
 
-.App_Frame.App_Animate {
-  background: rgba(255, 255, 255, 0.5);
-  transition: all 1s ease-in-out;
+.Gui_Confirmed p {
+    font-family: 'SpaceGrotesk';
+font-style: normal;
+font-weight: 500;
+font-size: 18px;
+line-height: 23px;
+/* identical to box height */
+
+text-align: center;
+    color: #8F8694;
 }
 
-.App_Frame.App_Animate--Hide {
-  background: rgba(255, 255, 255, 1);
-  transform: scale(2);
-  opacity: 0;
-  transition: all 0.5s ease-in-out;
+.Card {
+    position: absolute
+}
+.Gui_Icon {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.Gui_Icon--Check {
+    background: linear-gradient(163.95deg, #6348FE 4.74%, #610595 88.83%);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+margin-bottom: 35px;
+    
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.Gui_Icon--Return {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+@media screen and (min-width: 375px) {
+.Gui {
+    position: absolute;
+    min-width: 327px;
+    /* max-width:550px; */
+    height: 328px;
+    left: 24px;
+    top: 331px;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+@media screen and (min-width: 1280px) {
+    .App_Frame {
+        display: flex;
+        justify-content: center;
+    max-width: 483px;
+    width: 20%;
+    height: 100%;
+    align-items: center;
+
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
+.App_Frame canvas {
+    margin-left: 100%;
 }
 
-@media screen and (max-width: 430px) {
-  .App_Frame {
-    border-radius: 10px;
-    width: 100%;
-    background: unset;
-    border: unset;
-    height: unset;
-  }
-}
+.Gui {
+    width: 80%;
+    display: flex;
+    top:0;
+    height: 100vh;
+    position: absolute;
+    display: flex;
+    margin-left: 24%;
+    justify-content: center;
+    align-items: center;
 
-@media screen and (min-height: 1024px) {
-  .App_Frame {
-    height: 550px
-  }
+}
 }
