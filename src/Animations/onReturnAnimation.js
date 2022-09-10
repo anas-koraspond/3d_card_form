@@ -11,10 +11,10 @@ export const onReturnAnimation = (callback) => {
   
   
     setTimeout(() => {
-      Gui.classList.remove('Gui_Animate--Hide');
+    //   Gui.classList.remove('Gui_Animate--Hide');
       callback(false)
-      Frame.classList.remove('App_Animate--Hide');
-      Card.classList.remove('Card_Animate--Center');
-      Frame.classList.remove('App_Frame--Clear ');
+    //   Frame.classList.remove('App_Animate--Hide');
+    //   Card.classList.remove('Card_Animate--Center');
+    //   Frame.classList.remove('App_Frame--Clear ');
     }, 500)
   }

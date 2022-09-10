@@ -7,6 +7,7 @@ import {
 } from 'three/examples/jsm/loaders/OBJLoader.js';
 import {
     useRef,
+    useState,
     useEffect
 } from 'react'
 import './Scene.css'
@@ -19,14 +20,13 @@ import useDeviceDetect from '../utils/useDeviceDetect';
 const scene = new THREE.Scene();
 let camera = null;
 let renderer, font, blockDirection = null;
-let animationSpeed = Math.PI/7 / 100
+let animationSpeed = 0
 let animationPreviewRotate = Math.PI/7 / 10
-let preview, memoCollapsed = false;
 let frameId;
 
 let windowDetails = {
-    width:  window.innerWidth > 750 ? 750 : window.innerWidth,
-    height: window.innerWidth > 750 ? 350 : window.innerWidth/2,
+    width:  window.innerWidth > 390 ? window.innerWidth/2 : window.innerWidth,
+    height: window.innerWidth,// > 750 ? 350 : window.innerWidth/2,
 }
 
 
@@ -36,9 +36,9 @@ const stop = () => {
 }
 
 
-let onWindowResize = function (isMobile) {
-    windowDetails.width = isMobile && memoCollapsed ? window.innerWidth : window.innerWidth > 750 ? 750 : window.innerWidth;
-    windowDetails.height = isMobile && memoCollapsed ? 100 : windowDetails.width /2
+let onWindowResize = function () {
+    windowDetails.width = window.innerWidth > 390 ? window.innerWidth/2 : window.innerWidth
+    windowDetails.height =  windowDetails.width
     if (camera) {
       camera.aspect = windowDetails.width / windowDetails.height;
       camera.updateProjectionMatrix();
@@ -46,58 +46,22 @@ let onWindowResize = function (isMobile) {
     renderer && renderer.setSize( windowDetails.width,  windowDetails.height );
   }
 
-export const setPreviewBoolean = boolean => preview = boolean;
 
-const previewCardAnimation = () => {
 
-    if (!preview) {
-        return;
-    }
 
-    const card = scene.getObjectByName('Card-group');
-    const stop = 35 * 3.6;
-    const angle = animationPreviewRotate;
-    if (card.rotation.y < stop) {
-        if (blockDirection) {
-            card.rotation.y +=  angle;
-
-        }
-
-        if (!blockDirection) {
-            card.rotation.y -=  angle;
-        }
-
-    }
-}
-
-export default function Scene({card, collapse, isMobile}) {
+export default function Scene({card, confirmed}) {
     const mount = useRef();
+    const [reset, setReset] = useState(false);
     // instantiate a loader
     const objectLoader = new OBJLoader();
     const textureLoader = new THREE.TextureLoader();
     const fontLoader = new FontLoader();
 
+
     const animateCard = () => {
-        // console.log('animate card', preview)
-        if (preview) {
-            return;
-        }
+    //     // console.log('animate card', preview)
         const card = scene.getObjectByName('Card-group');
-        const stop = 0.3//3.6;
-        const start = 0;
-        const angle = animationSpeed
-        if (blockDirection && card.rotation.y < stop) {
-            card.rotation.y +=  angle;
-
-        }else  {
-            card.rotation.y -= angle;
-
-            blockDirection = false;
-
-            if (card.rotation.y <= start) {
-                blockDirection = true;
-            }
-        }
+        card.rotation.y +=  animationSpeed;
     }
 
     const renderScene = () => {
@@ -109,7 +73,6 @@ export default function Scene({card, collapse, isMobile}) {
         renderScene()
         frameId = window.requestAnimationFrame(animate);
         animateCard();
-        previewCardAnimation();
     }
 
 
@@ -230,10 +193,7 @@ export default function Scene({card, collapse, isMobile}) {
     }
 
     useEffect(() => {
-        memoCollapsed = collapse;
-        onWindowResize(isMobile)
-
-    
+        onWindowResize();
         Promise.all([loadObjectPromise(), loadTextureProcise(), loadFontPromise()]).then(data => {
             // console.log(data) z
             const object = data[0];
@@ -248,7 +208,7 @@ export default function Scene({card, collapse, isMobile}) {
     
             //make group 
             const group = new THREE.Group();
-            group.rotateZ(Math.PI/3)
+            group.rotateZ(Math.PI/2)
             group.name = 'Card-group';
     
             //painting
@@ -263,7 +223,7 @@ export default function Scene({card, collapse, isMobile}) {
     
             const groupText = new THREE.Group();
             groupText.name = 'Group-text'
-            const z = 0.1;
+            const z = 0.15;
 
             updateTextObjects(groupText, card, z);
       
@@ -303,9 +263,7 @@ export default function Scene({card, collapse, isMobile}) {
             start()
     
         })
-        window.addEventListener("resize", onWindowResize(isMobile), false);
-
-
+        window.addEventListener("resize", onWindowResize(), false);
     }, [])
 
     useEffect(() => {
@@ -314,15 +272,26 @@ export default function Scene({card, collapse, isMobile}) {
           if (group) {
               group.children = [];
               updateTextObjects(group, card);
-              onWindowResize(isMobile)
+              onWindowResize()
           }
         }
     }, [card])
 
     useEffect(() => {
-        memoCollapsed = collapse;
-        onWindowResize(isMobile);
-    }, [collapse])
+        if(confirmed)  animationSpeed = animationPreviewRotate;
+        if (!confirmed) {
+            animationSpeed = 0;
+            setReset(!reset);
+        }
+    }, [confirmed])
 
-    return ( <canvas className={isMobile && collapse ? "Card Card__Collapse" : "Card"}ref={mount}/>)
+    useEffect(() => {
+        const card = scene.getObjectByName('Card-group');
+        if (card ) {
+            card.rotation.set(0, 0, 0);
+            card.rotateZ(Math.PI/2)
+        }
+    }, [reset])
+
+    return ( <canvas className={"Card"} ref={mount}/>)
 } 
