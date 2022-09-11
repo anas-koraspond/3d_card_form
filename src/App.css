@@ -1,99 +1,50 @@
 .App {
-  text-align: center;
-  display: flex;
-  align-items: start;
-  flex-direction: column-reverse;
-  width: 100%;
-  height: 100%;
-}
-
-.App_Button {
-  position: absolute !important;
-  margin: auto;
-  left: 0;
-  right: 0;
-  display: none !important;
-  top: calc(50% + 295px);
-}
-
-.App_Button--Show {
-  display: block !important;
+	font-family: "SpaceGrotesk";
+	max-width: 1920px;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
 }
 
 .App_Frame {
-  background: hsla(0, 0%, 100%, .1);
-  border: 5px solid #fff;
-  border-radius: 10px;
-  margin: auto;
-  max-width: 750px;
-  place-items: center;
-  width: 90%;
+	position: absolute;
+	width: 100%;
+	min-width: 375px;
+	height: 240px;
+	left: 0px;
+	top: 0px;
+
+	background: #21092f;
+	display: flex;
+	justify-content: center;
 }
 
-.App_Frame.App_Frame--Clear {
-  background: none !important;
+.App_Card {
+	width: 300px;
+}
+.App_Card--Back {
+	top: 20px;
+	position: absolute;
+	margin: auto;
+	right: 20px;
 }
 
-.App_Frame.App_Animate {
-  background: rgba(255, 255, 255, 0.5);
-  transition: all 1s ease-in-out;
+@media screen and (min-width: 1280px) {
+	.App_Frame {
+		display: flex;
+		justify-content: center;
+		max-width: 483px;
+		width: 20%;
+		height: 100%;
+		align-items: center;
+	}
+
+	.App_Frame canvas {
+		margin-left: 100%;
+	}
 }
 
-.App_Frame.App_Animate--Hide {
-  background: rgba(255, 255, 255, 1);
-  transform: scale(2);
-  opacity: 0;
-  transition: all 0.5s ease-in-out;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media screen and (max-width: 430px) {
-  .App_Frame {
-    border-radius: 10px;
-    width: 100%;
-    background: unset;
-    border: unset;
-    height: unset;
-  }
-}
-
-@media screen and (min-height: 1024px) {
-  .App_Frame {
-    height: 550px
-  }
-}
