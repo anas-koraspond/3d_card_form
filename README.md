@@ -22,6 +22,8 @@ This is a simple integration of React and Threejs by two ways. There are two ver
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/90a3c198-ba14-489c-a63d-77300aebd9db/deploy-status)](https://app.netlify.com/sites/theplanetsapp/deploys)
+
 ## Demo
 
 https://3d-card-form.netlify.app/
