@@ -1,0 +1,126 @@
+.Gui {
+	position: absolute;
+	width: 327px;
+	height: 328px;
+	left: 24px;
+	top: 331px;
+}
+
+.Gui_Form {
+	margin-top: 48px;
+}
+.Gui_Confirmed {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 48px;
+}
+.Gui_Actions {
+	margin-top: 48px;
+}
+.Gui_Confirm {
+	font-family: "SpaceGrotesk";
+	font-style: normal;
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 23px;
+	/* identical to box height */
+
+	/* White */
+
+	color: #ffffff;
+}
+.Gui_header {
+	/* Heading (XL) */
+
+	font-family: "SpaceGrotesk";
+	font-style: normal;
+	font-weight: 500;
+	font-size: 28px;
+	line-height: 36px;
+	/* identical to box height */
+
+	text-align: center;
+	letter-spacing: 3.42222px;
+
+	/* Deep Violet */
+
+	color: #21092f;
+}
+.Gui_info {
+	/* Heading (L) */
+
+	font-family: "SpaceGrotesk";
+	font-style: normal;
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 23px;
+	/* identical to box height */
+
+	text-align: center;
+
+	/* Purplish Grey */
+
+	color: #8f8694;
+}
+
+.Gui_Confirmed p {
+	font-family: "SpaceGrotesk";
+	font-style: normal;
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 23px;
+	/* identical to box height */
+
+	text-align: center;
+	color: #8f8694;
+}
+
+.Gui_Icon {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.Gui_Icon--Check {
+	background: linear-gradient(163.95deg, #6348fe 4.74%, #610595 88.83%);
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	margin-bottom: 35px;
+}
+
+.Gui_Icon--Return {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+@media screen and (min-width: 375px) {
+	.Gui {
+		position: absolute;
+		min-width: 327px;
+		/* max-width:550px; */
+		height: 328px;
+		left: 24px;
+		top: 331px;
+		left: 0;
+		right: 0;
+		margin: auto;
+	}
+}
+
+@media screen and (min-width: 1280px) {
+	.Gui {
+		width: 80%;
+		display: flex;
+		top: 0;
+		height: 100vh;
+		position: absolute;
+		display: flex;
+		margin-left: 24%;
+		justify-content: center;
+		align-items: center;
+	}
+}

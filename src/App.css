@@ -1,194 +1,50 @@
 .App {
-    font-family: 'SpaceGrotesk';
-    max-width: 1920px;
-    /* background-color: pink; */
-    height: 100vh;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
+	font-family: "SpaceGrotesk";
+	max-width: 1920px;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
 }
 
 .App_Frame {
-    position: absolute;
-    width: 100%; 
-    min-width:375px;
-    height: 240px;
-    left: 0px;
-    top: 0px;
-    
-    background: #21092F;
-    display: flex;
-    justify-content: center;
+	position: absolute;
+	width: 100%;
+	min-width: 375px;
+	height: 240px;
+	left: 0px;
+	top: 0px;
+
+	background: #21092f;
+	display: flex;
+	justify-content: center;
 }
 
-.Gui {
-    position: absolute;
-    width: 327px;
-    height: 328px;
-    left: 24px;
-    top: 331px;
-    
-    
-}
-.Card {
-    max-width: 457px;;
-    max-height: 457px;;
-
-}
 .App_Card {
-    width: 300px;
-
+	width: 300px;
 }
 .App_Card--Back {
-    top: 20px;
-    position: absolute;
-    margin: auto;
-    right: 20px;
-}
-.Gui_Form {
-    margin-top: 48px;
-
-}
-.Gui_Confirmed {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-margin-top: 48px;
-
-}
-.Gui_Actions {
-    margin-top: 48px;
-}
-.Gui_Confirm {
-    font-family: 'SpaceGrotesk';
-font-style: normal;
-font-weight: 500;
-font-size: 18px;
-line-height: 23px;
-/* identical to box height */
-
-
-/* White */
-
-color: #FFFFFF;
-}
-.Gui_header {
-    /* Heading (XL) */
-
-font-family: 'SpaceGrotesk';
-font-style: normal;
-font-weight: 500;
-font-size: 28px;
-line-height: 36px;
-/* identical to box height */
-
-text-align: center;
-letter-spacing: 3.42222px;
-
-/* Deep Violet */
-
-color: #21092F;
-}
-.Gui_info {
-    /* Heading (L) */
-
-font-family: 'SpaceGrotesk';
-font-style: normal;
-font-weight: 500;
-font-size: 18px;
-line-height: 23px;
-/* identical to box height */
-
-text-align: center;
-
-/* Purplish Grey */
-
-color: #8F8694;
-}
-
-.Gui_Confirmed p {
-    font-family: 'SpaceGrotesk';
-font-style: normal;
-font-weight: 500;
-font-size: 18px;
-line-height: 23px;
-/* identical to box height */
-
-text-align: center;
-    color: #8F8694;
-}
-
-.Card {
-    position: absolute
-}
-.Gui_Icon {
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-}
-.Gui_Icon--Check {
-    background: linear-gradient(163.95deg, #6348FE 4.74%, #610595 88.83%);
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-margin-bottom: 35px;
-    
-}
-
-.Gui_Icon--Return {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-
-}
-
-@media screen and (min-width: 375px) {
-.Gui {
-    position: absolute;
-    min-width: 327px;
-    /* max-width:550px; */
-    height: 328px;
-    left: 24px;
-    top: 331px;
-    left: 0;
-    right: 0;
-    margin: auto;
-}
-
+	top: 20px;
+	position: absolute;
+	margin: auto;
+	right: 20px;
 }
 
 @media screen and (min-width: 1280px) {
-    .App_Frame {
-        display: flex;
-        justify-content: center;
-    max-width: 483px;
-    width: 20%;
-    height: 100%;
-    align-items: center;
+	.App_Frame {
+		display: flex;
+		justify-content: center;
+		max-width: 483px;
+		width: 20%;
+		height: 100%;
+		align-items: center;
+	}
 
+	.App_Frame canvas {
+		margin-left: 100%;
+	}
 }
 
-.App_Frame canvas {
-    margin-left: 100%;
-}
-
-.Gui {
-    width: 80%;
-    display: flex;
-    top:0;
-    height: 100vh;
-    position: absolute;
-    display: flex;
-    margin-left: 24%;
-    justify-content: center;
-    align-items: center;
-
-}
-}
